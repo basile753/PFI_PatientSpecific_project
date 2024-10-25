@@ -15,6 +15,12 @@ segmented_stl = {
         "Menisc_lateral": ["menlat", "lat men", "lat_men", "Lat men", "Lat_men", "Menisci_lat", "Menisci lat", "Lat Men", "Lat Meniscus", "LatMeniscus", "Lateral meniscus", "Lat_meniscus", "men lat", "men Lat", "Men_lat", "men_lat"],}
 
 def find_key_from_value(dict, val):
+    """
+    Find the key of a value in a dictionary where several values are associated with 1 key.
+    :param dict: the dictionary to be searched
+    :param val: the value
+    :return:
+    """
     if val not in dict.keys():
         for key, values in dict.items():
             if val in values:
@@ -23,7 +29,8 @@ def find_key_from_value(dict, val):
 
 def normalize(path):
     """
-    This programm normalizes the data's segmentation files names in order to be processed and have a consistant naming.
+    Normalizes the data's segmentation files names in order to be processed and have a consistant naming according to
+    the segmented_stl dictionary.
     """
     print(f'\n\tNormalizing files in {path}')
     # Walk through every folder and file in the path
@@ -53,7 +60,8 @@ def normalize(path):
                 
 def check(path):
     """
-    This program verify if all the necesary STL and DICOM files exists for every patient.
+    Verify if all the necesary STL and DICOM files exists for every patient.
+    :return: List of the No° of the patients whose files are ready.
     """
     list_ready = []
     print(f'\n\tChecking files in {path}')
@@ -82,9 +90,10 @@ def check(path):
 
 def create_randomsplits(list_patients):
     """
-    This function aims to split a selected amount of data within the data that are ready in train/test splits.
+    This function aims to randomly split a selected amount of patient's data within the data that are ready in
+    train/test splits.
     :param list_patients: the list of verified/ready patient's data.
-    :return: 2 lists composed of the No° set of training patients and the set of test.
+    :return: Lists of the No° of train and test data split.
     """
     print(f"Here the list of the {len(list_patients)} patient's data selected : {list_patients}")
     amount_data = input(f'Choose how many patient you want to use to train/test the algorythm (default : all)')
@@ -183,19 +192,19 @@ def sort(path, list_patients):
 if __name__ == "__main__":
     flag = False
 
-    # Define the path to the data after manual segmentation
+    # Enter the path to the manual segmentation's data
     path = input("Enter the path of the RMIs Data : ")
     if type(path) is not str:
         raise TypeError("The path must be a chain of characters")
 
-    # Call the function to rename files to their standard names
+    # Call the function to rename files to their conventional names
     normalize(path)
 
-    #Call the function to check if any data is missing and/or if useless data are present
+    #Call the function to check the data that are ready
     flag, list_patients = check(path)
 
     if flag == "True":
-        #Call the function to sort the data in folders (DICOM & manual_segmentation) for process
+        #Call the function to randomly sort the ready data in train/test folders (DICOM & manual_segmentation) for process
         sort(path, list_patients)
     else:
         print("Program ended without sorting the files.")
