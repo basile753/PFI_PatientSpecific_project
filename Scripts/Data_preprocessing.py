@@ -1,6 +1,7 @@
 import os
 import shutil
 import random
+from utils import *
 
 
 segmented_stl = {
@@ -86,39 +87,155 @@ def check(path):
     print(f'\nTotal of patients considered : {n}')
     print(f'Number of patients data ready (fully segmented with DICOM in the folder) : {len(list_ready)}')
     print(f'\tList of the patients ready : {list_ready}')
+    if input(f'\n generate niftii files (if not already) for the data that are ready ? True/False : ') == 'True':
+        generate_niftii(path, list_ready)
     return input(f'\nSort the files ? True/False : \n'), list_ready
+
+def generate_niftii(path, list_patients):
+    """
+    Generate the .nii files from the images and segmentations of every patients, format used to train the MPUnet algorythm.
+    The conversion is made through the 3D slicer software that must be installed on the device.
+    :param path: The path to the patient's data.
+    :param list_patients: A list of the No° of the patient whose files are ready for niftii file generation.
+    """
+    # Path to the 3D Slicer executable
+    slicer_path = input("\nEnter your path to 3Dslicer software (default : D:\Programmes\Slicer 5.6.2\Slicer.exe) :")
+    print("\n\tGenerating niftii files...")
+    for individual in list_patients:
+        script_dicom_to_nii = f"""
+import os
+import slicer
+from DICOMLib import DICOMUtils
+
+# Path to the DICOM folder and the output NIfTI file
+dicom_folder = "{path}/{individual}"
+output_file = "{path}/{individual}/image.nii.gz"
+
+# Step 1: Load DICOM images
+def load_dicom(dicom_folder):
+    # Initialize the DICOM database if it is not already open
+    if not slicer.dicomDatabase.isOpen:
+        slicer.dicomDatabase.initializeDatabase(os.path.join(slicer.app.temporaryPath, 'ctkDICOM.sql'))
+    
+    # Import the DICOM folder and load the series
+    with DICOMUtils.TemporaryDICOMDatabase() as db:
+        DICOMUtils.importDicom(dicom_folder, db)
+        
+        # Automatically load the first DICOM series found
+        patient_uid = db.patients()[0]
+        study_uid = db.studiesForPatient(patient_uid)[0]
+        series_uid = db.seriesForStudy(study_uid)[0]
+        
+        loaded_node_ids = DICOMUtils.loadSeriesByUID([series_uid])
+        volume_node = slicer.mrmlScene.GetNodeByID(loaded_node_ids[0]) if loaded_node_ids else None
+        return volume_node
+
+# Step 2: Export to .nii.gz
+def export_volume_as_nifti(volume_node, output_file):
+    if volume_node:
+        slicer.util.saveNode(volume_node, output_file)
+
+# Run the DICOM to NIfTI conversion
+volume_node = load_dicom(dicom_folder)
+export_volume_as_nifti(volume_node, output_file)
+
+# Clean exit from Slicer
+slicer.app.exit()
+        """
+        script_segments_to_nii = f"""
+import os
+import slicer
+from DICOMLib import DICOMUtils
+
+# Path to the folder containing STL files and the output NIfTI file
+stl_folder = r"{path}\{individual}"  # Folder containing the .stl files
+output_file = r"{path}\{individual}\segmentation.nii.gz"
+
+# Step 1: Import STL files as segments of a single segmentation
+def import_stl_as_segmentation(stl_folder):
+    # Create a segmentation node
+    segmentation_node = slicer.mrmlScene.AddNewNodeByClass("vtkMRMLSegmentationNode")
+    segmentation_node.CreateDefaultDisplayNodes()  # To visualize the segments
+
+    # Add each STL file as a separate segment
+    for stl_file in {list(segmented_stl.keys())}:
+        stl_file += ".stl"
+        # Load the STL file as a temporary model
+        model_node = slicer.util.loadModel("{path}/{individual}/"+stl_file)
+        # Add the model as a new segment in the segmentation node
+        slicer.modules.segmentations.logic().ImportModelToSegmentationNode(model_node, segmentation_node)
+        # Remove the temporary model
+        slicer.mrmlScene.RemoveNode(model_node)
+    
+    return segmentation_node
+
+# Step 2: Export the segmentation to .nii.gz
+def export_segmentation_as_nifti(segmentation_node, output_file):
+    # Convert the segmentation to a binary volume
+    export_volume_node = slicer.mrmlScene.AddNewNodeByClass("vtkMRMLLabelMapVolumeNode")
+    slicer.modules.segmentations.logic().ExportAllSegmentsToLabelmapNode(segmentation_node, export_volume_node)
+    # Save the segmentation volume in NIfTI format
+    slicer.util.saveNode(export_volume_node, output_file)
+    # Remove the exported node
+    slicer.mrmlScene.RemoveNode(export_volume_node)
+
+# Execute the segmentation process
+segmentation_node = import_stl_as_segmentation(stl_folder)
+export_segmentation_as_nifti(segmentation_node, output_file)
+
+# Clean exit from Slicer
+slicer.app.exit()
+        """
+        if os.path.exists("convert"):
+            shutil.rmtree("convert")
+        os.makedirs("convert")
+        with open("convert/dicom_to_nii.py", 'w', encoding="utf-8") as file:
+            file.write(script_dicom_to_nii)
+            file.close()
+        with open("convert/segments_to_nii.py", 'w', encoding="utf-8") as file:
+            file.write(script_segments_to_nii)
+            file.close()
+        if not os.path.exists(f"{path}/{individual}/image.nii.gz"):
+            execute_3dslicer("convert/dicom_to_nii.py", slicer_path)
+            print(f"Image Niftii file generated for patient No° {individual}")
+        if not os.path.exists(f"{path}/{individual}/segmentation.nii.gz"):
+            execute_3dslicer("convert/segments_to_nii.py", slicer_path)
+            print(f"Segmentation Niftii file generated for patient No° {individual}")
+        else:
+            print(f"Niftii files already generated for patient No° {individual}\n")
+    return
 
 def create_randomsplits(list_patients):
     """
     This function aims to randomly split a selected amount of patient's data within the data that are ready in
-    train/test splits.
+    train/validation splits.
     :param list_patients: the list of verified/ready patient's data.
-    :return: Lists of the No° of train and test data split.
+    :return: Lists of the No° of train and validation data split.
     """
     print(f"Here the list of the {len(list_patients)} patient's data selected : {list_patients}")
-    amount_data = input(f'Choose how many patient you want to use to train/test the algorythm (default : all)')
+    amount_data = input(f'Choose how many patient you want to use to train/validation the algorythm (default : all)')
     if amount_data == '':
         amount_data = len(list_patients)
     elif amount_data.isdigit() == False:
         raise TypeError("The amount choosen is not a number.")
     elif int(amount_data) > len(list_patients):
         raise ValueError("The amount choosen exceeds the number of ready patient's data.")
-    amount_test_data = input(f'Choose how many patient you want to test the algorythm (default : 15) :')
-    if amount_test_data == "":
-        amount_test_data = 15
-    elif amount_test_data.isdigit() == False:
+    amount_validation_data = input(f'Choose how many patient you want to validation the algorythm (default : 15) :')
+    if amount_validation_data == "":
+        amount_validation_data = 15
+    elif amount_validation_data.isdigit() == False:
         raise TypeError("The amount choosen is not a number.")
-    elif int(amount_test_data) > int(amount_data):
+    elif int(amount_validation_data) > int(amount_data):
         raise ValueError("The amount choosen exceeds the number of selected patients.")
-    test_data = random.sample(list_patients, int(amount_test_data))
-    for val in test_data:
+    validation_data = random.sample(list_patients, int(amount_validation_data))
+    for val in validation_data:
         list_patients.remove(val)
-    train_data = random.sample(list_patients, int(amount_data)-int(amount_test_data))
-    print(f"Here is the result of the random split  :\n\t{len(train_data)} training data {train_data}\n\t{len(test_data)}"
-          f" test data {test_data}")
+    train_data = random.sample(list_patients, int(amount_data)-int(amount_validation_data))
+    print(f"Here is the result of the random split  :\n\t{len(train_data)} training data {train_data}\n\t{len(validation_data)}"
+          f" validation data {validation_data}")
     train_data = sorted(train_data)
-    test_data = sorted(test_data)
-    return train_data, test_data
+    validation_data = sorted(validation_data)
+    return train_data, validation_data
 
 def sort(path, list_patients):
     """
@@ -126,66 +243,50 @@ def sort(path, list_patients):
         -All the DICOM data goes to "dicom" folder.
         -All the segmentations goes to "manual_segmentations" folder.
     Only the patients from list_patients are considered (use check() tu get all the ready patient's data).
-    2 folds are generated (train/test data) and it is possible to use a certain amount of the patient's list
+    2 folds are generated (train/validation data) and it is possible to use a certain amount of the patient's list
     randomized (in order to observe to influence of the training data size on the accuracy).
     """
-    train_data, test_data = create_randomsplits(list_patients)
+    train_data, validation_data = create_randomsplits(list_patients)
 
-    print(f'\n\tSorting files in {path} in the train/test data folders in {"PFI_Autosegmentation_project/Data/RMIs"}')
+    print(f'\n\tSorting files in {path} in the train/validation data folders in {"PFI_Autosegmentation_project/Data/RMIs/data_folder"}')
     #Delete the previous directories
-    if os.path.exists("../Data/RMIs/train_data"):
-        shutil.rmtree("../Data/RMIs/train_data")
-    if os.path.exists("../Data/RMIs/test_data"):
-        shutil.rmtree("../Data/RMIs/test_data")
-    os.makedirs("../Data/RMIs/train_data")
-    os.makedirs("../Data/RMIs/test_data")
-
+    if os.path.exists("../Data/RMIs/data_folder"):
+        shutil.rmtree("../Data/RMIs/data_folder")
+    #The tree is generated as written in the MPUnet datasheet
+    os.makedirs("../Data/RMIs/data_folder/train/images")
+    os.makedirs("../Data/RMIs/data_folder/train/labels")
+    os.makedirs("../Data/RMIs/data_folder/val/images")
+    os.makedirs("../Data/RMIs/data_folder/val/labels")
+    os.makedirs("../Data/RMIs/data_folder/test/images")
+    os.makedirs("../Data/RMIs/data_folder/test/labels")
 
     #Sorting the training data
     for individual in train_data:
         individual = str(individual)
         print(f'Sorting patient No° {individual} as a train data')
-        os.makedirs("../Data/RMIs/train_data/manual_segmentations/"+individual)
-        os.makedirs("../Data/RMIs/train_data/dicom/"+individual)
-        for key in segmented_stl.keys():
-            key = key + ".stl"
-            if key not in os.listdir(path + "/" + individual):
-                print(f'!!!!WARNING!!!!!! {key} is missing from patient No° {individual}')
-            else:
-                shutil.copy(path + "/" + individual + "/" + key, "../Data/RMIs/train_data/manual_segmentations/" + individual)
-        if "DICOM" not in os.listdir(path + "/" + individual):
-            print(f'!!!!WARNING!!!!!! The DICOM files are missing from patient No° {individual}')
+        if "image.nii.gz" not in os.listdir(path + "/" + individual):
+            raise FileNotFoundError(f'"image.nii.gz" not found in {path + "/" + individual}, please convert the DICOM data in a unique .nii.gz file.')
+        elif "segmentation.nii.gz" not in os.listdir(path + "/" + individual):
+            raise FileNotFoundError(f'"segmentation.nii.gz" not found in {path + "/" + individual}, please convert the segmentations data in a unique .nii.gz file.')
         else:
-            shutil.copytree(path + "/" + individual + "/DICOM", "../Data/RMIs/train_data/dicom/" + individual, dirs_exist_ok = True)
-       #Might not be necessary ?
-       """ if "DICOMDIR" not in os.listdir(path + "/" + individual):
-            print(f'!!!!WARNING!!!!!! The DICOMDIR file is missing from patient No° {individual}')
-        else:
-            shutil.copy(path + "/" + individual + "/DICOMDIR", "../Data/RMIs/train_data/dicom/" + individual)"""
+            shutil.copy(path + "/" + individual + "/" + "image.nii.gz", "../Data/RMIs/data_folder/train/images/"+individual+".nii.gz")
+            shutil.copy(path + "/" + individual + "/" + "segmentation.nii.gz", "../Data/RMIs/data_folder/train/labels/"+individual+".nii.gz")
 
-    # Sorting the testing data
-    for individual in test_data:
+    # Sorting the validation data
+    for individual in validation_data:
         individual = str(individual)
-        print(f'Sorting patient No° {individual} as a test data')
-        os.makedirs("../Data/RMIs/test_data/manual_segmentations/" + individual)
-        os.makedirs("../Data/RMIs/test_data/dicom/" + individual)
-        for key in segmented_stl.keys():
-            key = key + ".stl"
-            if key not in os.listdir(path + "/" + individual):
-                print(f'!!!!WARNING!!!!!! {key} is missing from patient No° {individual}')
-            else:
-                shutil.copy(path + "/" + individual + "/" + key,
-                            "../Data/RMIs/test_data/manual_segmentations/" + individual)
-        if "DICOM" not in os.listdir(path + "/" + individual):
-            print(f'!!!!WARNING!!!!!! The DICOM files are missing from patient No° {individual}')
+        print(f'Sorting patient No° {individual} as a validation data')
+        if "image.nii.gz" not in os.listdir(path + "/" + individual):
+            raise FileNotFoundError(
+                f'"image.nii.gz" not found in {path + "/" + individual}, please convert the DICOM data in a unique .nii.gz file.')
+        elif "segmentation.nii.gz" not in os.listdir(path + "/" + individual):
+            raise FileNotFoundError(
+                f'"segmentation.nii.gz" not found in {path + "/" + individual}, please convert the segmentations data in a unique .nii.gz file.')
         else:
-            shutil.copytree(path + "/" + individual + "/DICOM", "../Data/RMIs/test_data/dicom/" + individual,
-                            dirs_exist_ok=True)
-        # Might not be necessary ?
-        """if "DICOMDIR" not in os.listdir(path + "/" + individual):
-            print(f'!!!!WARNING!!!!!! The DICOMDIR file is missing from patient No° {individual}')
-        else:
-            shutil.copy(path + "/" + individual + "/DICOMDIR", "../Data/RMIs/test_data/dicom/" + individual)"""
+            shutil.copy(path + "/" + individual +"/"+ "image.nii.gz",
+                        "../Data/RMIs/data_folder/val/images/" + individual + ".nii.gz")
+            shutil.copy(path + "/" + individual +"/"+ "segmentation.nii.gz",
+                        "../Data/RMIs/data_folder/val/labels/" + individual + ".nii.gz")
     return
 
 
@@ -204,7 +305,7 @@ if __name__ == "__main__":
     flag, list_patients = check(path)
 
     if flag == "True":
-        #Call the function to randomly sort the ready data in train/test folders (DICOM & manual_segmentation) for process
+        #Call the function to randomly sort the ready data in train/validation folders (DICOM & manual_segmentation) for process
         sort(path, list_patients)
     else:
         print("Program ended without sorting the files.")
