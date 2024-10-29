@@ -8,5 +8,5 @@ To do so, the software will perform an automatic-segmentation made by a Machine 
 
 Read the following thesis for more information : INSERT ANNAGH'S THESIS
 
-10_03_2024 ---- A. Basile ---------------------------------------
+10_29_2024 ---- A. Basile ---------------------------------------
 

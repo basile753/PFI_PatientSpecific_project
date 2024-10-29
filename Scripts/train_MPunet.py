@@ -28,4 +28,3 @@ def test_mpunet(name: str, project_dir: str):
     print(f"{name}'s testing is done. See 'predictions' file for the results")
     return
 
-train_mpunet()

@@ -1,7 +1,7 @@
-import os
 import shutil
 import random
-from utils import *
+import utils
+import os
 
 
 segmented_stl = {
@@ -87,9 +87,9 @@ def check(path):
     print(f'\nTotal of patients considered : {n}')
     print(f'Number of patients data ready (fully segmented with DICOM in the folder) : {len(list_ready)}')
     print(f'\tList of the patients ready : {list_ready}')
-    if input(f'\n generate niftii files (if not already) for the data that are ready ? True/False : ') == 'True':
+    if input(f'\n generate niftii files (if not already) for the data that are ready ? (y/n) : ') == 'y':
         generate_niftii(path, list_ready)
-    return input(f'\nSort the files ? True/False : \n'), list_ready
+    return input(f'\nSort the files in "PFI_Autosegmentation_project/Data/RMIs/data_folder" ? (y/n) : \n'), list_ready
 
 def generate_niftii(path, list_patients):
     """
@@ -196,10 +196,10 @@ slicer.app.exit()
             file.write(script_segments_to_nii)
             file.close()
         if not os.path.exists(f"{path}/{individual}/image.nii.gz"):
-            execute_3dslicer("convert/dicom_to_nii.py", slicer_path)
+            utils.execute_3dslicer("convert/dicom_to_nii.py", slicer_path)
             print(f"Image Niftii file generated for patient No° {individual}")
         if not os.path.exists(f"{path}/{individual}/segmentation.nii.gz"):
-            execute_3dslicer("convert/segments_to_nii.py", slicer_path)
+            utils.execute_3dslicer("convert/segments_to_nii.py", slicer_path)
             print(f"Segmentation Niftii file generated for patient No° {individual}")
         else:
             print(f"Niftii files already generated for patient No° {individual}\n")
@@ -248,7 +248,7 @@ def sort(path, list_patients):
     """
     train_data, validation_data = create_randomsplits(list_patients)
 
-    print(f'\n\tSorting files in {path} in the train/validation data folders in {"PFI_Autosegmentation_project/Data/RMIs/data_folder"}')
+    print(f'\n\tSorting the files...')
     #Delete the previous directories
     if os.path.exists("../Data/RMIs/data_folder"):
         shutil.rmtree("../Data/RMIs/data_folder")
@@ -288,25 +288,4 @@ def sort(path, list_patients):
             shutil.copy(path + "/" + individual +"/"+ "segmentation.nii.gz",
                         "../Data/RMIs/data_folder/val/labels/" + individual + ".nii.gz")
     return
-
-
-if __name__ == "__main__":
-    flag = False
-
-    # Enter the path to the manual segmentation's data
-    path = input("Enter the path of the RMIs Data : ")
-    if type(path) is not str:
-        raise TypeError("The path must be a chain of characters")
-
-    # Call the function to rename files to their conventional names
-    normalize(path)
-
-    #Call the function to check the data that are ready
-    flag, list_patients = check(path)
-
-    if flag == "True":
-        #Call the function to randomly sort the ready data in train/validation folders (DICOM & manual_segmentation) for process
-        sort(path, list_patients)
-    else:
-        print("Program ended without sorting the files.")
 
