@@ -19,7 +19,9 @@ def main():
     #---------------------------------------
 
     #-----Training the MPUnet model---------
-    trmp.train_mpunet()
+    if input("Would you like to train a MPUnet model on the sorted data ? (y/n) ") == "y":
+        trmp.train_mpunet()
+    # ---------------------------------------
 
 if __name__ == '__main__':
     main()
