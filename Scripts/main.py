@@ -2,8 +2,10 @@
 This is the main script on the project, it aims to interact with the other scripts in order to pre-process the data,
 train or evaluate models.
 """
-from Scripts import Data_preprocessing as dp
-from Scripts import train_MPunet as trmp
+import os
+
+import Data_preprocessing as dp
+import train_MPunet as trmp
 
 def main():
     #-----Pre-processing---------------------
@@ -24,4 +26,6 @@ def main():
     # ---------------------------------------
 
 if __name__ == '__main__':
+    script_dir = os.path.dirname(os.path.abspath(__file__))
+    os.chdir(script_dir)
     main()
