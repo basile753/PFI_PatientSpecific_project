@@ -14,17 +14,17 @@ def train_mpunet(data_dir="../Data/RMIs/data_folder", root="../Models"):
                  "\n\t Enter name here : ")
     project_dir = f"{root}/{name}"
     # Run mp.py with separate arguments
-    subprocess.run(f"{sys.executable} {mp_path} init_project --name {name} --data_dir {data_dir} --root {root}", shell=True, check=True)
+    subprocess.run(f"{sys.executable} {mp_path} init_project --name {name} --data_dir {data_dir} --root {root}", check=True)
     os.chdir(project_dir)
     print(f"\nTraining the model {name}... This action may take a while...")
     subprocess.run(f"{sys.executable} {mp_path_from_modeldirectory} train --overwrite --num_GPUs=0", check=True,)
-    subprocess.run(f"{sys.executable} {mp_path_from_modeldirectory} train_fusion --overwrite --num_GPUs=0", shell=True, check=True,)
+    subprocess.run(f"{sys.executable} {mp_path_from_modeldirectory} train_fusion --overwrite --num_GPUs=0", check=True,)
     print(f"{name}'s training is done.")
     #test_mpunet(name, project_dir)
 
 def test_mpunet(name: str, project_dir: str):
     print(f"\nTesting the model {name}... This action may take a while...")
-    subprocess.run(f"{sys.executable} {mp_path} predict --num_GPUs=0 --out_dir predictions",shell=True, check=True)
+    subprocess.run(f"{sys.executable} {mp_path} predict --num_GPUs=0 --out_dir predictions", check=True)
     print(f"{name}'s testing is done. See 'predictions' file for the results")
     return
 
