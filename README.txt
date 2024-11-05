@@ -10,3 +10,5 @@ Read the following thesis for more information : INSERT ANNAGH'S THESIS
 
 10_29_2024 ---- A. Basile ---------------------------------------
 
+IMPORTANT to use the project, create a VirtualEnvironment based on Python3.7 with the latest "mpunet" module installed.
+

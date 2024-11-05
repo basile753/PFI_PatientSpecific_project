@@ -19,5 +19,5 @@ def execute_3dslicer(script: str, slicer_path):
         slicer_path = "D:\Programmes\Slicer 5.6.2\Slicer.exe"
     if os.path.exists(slicer_path):
         # Run Slicer with the specified script
-        subprocess.run([slicer_path, "--no-splash", "--no-main-window", "--python-script", script])
+        subprocess.run([slicer_path, "--no-splash", "--python-script", script])
 

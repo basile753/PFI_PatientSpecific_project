@@ -2,7 +2,7 @@ import shutil
 import random
 import utils
 import os
-
+from sklearn.model_selection import KFold
 
 segmented_stl = {
         "Femur": ["Fem", "fem", "femur"],
@@ -89,7 +89,7 @@ def check(path):
     print(f'\tList of the patients ready : {list_ready}')
     if input(f'\n generate niftii files (if not already) for the data that are ready ? (y/n) : ') == 'y':
         generate_niftii(path, list_ready)
-    return input(f'\nSort the files in "PFI_Autosegmentation_project/Data/RMIs/data_folder" ? (y/n) : \n'), list_ready
+    return input(f'\nSort the files in "PFI_Autosegmentation_project/Data/RMIs/data_folder" ? (y/n) : '), list_ready
 
 def generate_niftii(path, list_patients):
     """
@@ -158,22 +158,33 @@ def import_stl_as_segmentation(stl_folder):
     segmentation_node.CreateDefaultDisplayNodes()  # To visualize the segments
 
     # Add each STL file as a separate segment
-    for stl_file in {list(segmented_stl.keys())}:
+    segment_names = {list(segmented_stl.keys())}  # List of segment names
+    for idx, stl_file in enumerate(segment_names, start=1):
         stl_file += ".stl"
         # Load the STL file as a temporary model
-        model_node = slicer.util.loadModel("{path}/{individual}/"+stl_file)
+        model_node = slicer.util.loadModel("{path}/{individual}/" + stl_file)
         # Add the model as a new segment in the segmentation node
         slicer.modules.segmentations.logic().ImportModelToSegmentationNode(model_node, segmentation_node)
+        # Assign a unique integer label to each segment for discrete labeling
+        segment = segmentation_node.GetSegmentation().GetNthSegment(idx - 1)
+        segment.SetTag("LabelValue", str(idx))  # Set unique integer label
+
         # Remove the temporary model
         slicer.mrmlScene.RemoveNode(model_node)
-    
+
     return segmentation_node
 
-# Step 2: Export the segmentation to .nii.gz
+# Step 2: Export the segmentation to .nii.gz with discrete labels
 def export_segmentation_as_nifti(segmentation_node, output_file):
-    # Convert the segmentation to a binary volume
+    # Convert the segmentation to a label map volume with discrete labels
     export_volume_node = slicer.mrmlScene.AddNewNodeByClass("vtkMRMLLabelMapVolumeNode")
     slicer.modules.segmentations.logic().ExportAllSegmentsToLabelmapNode(segmentation_node, export_volume_node)
+
+    # Ensure that the label map contains discrete integer values
+    labelmap_array = slicer.util.arrayFromVolume(export_volume_node)
+    labelmap_array = labelmap_array.astype(int)  # Convert to integer type
+    slicer.util.updateVolumeFromArray(export_volume_node, labelmap_array)
+
     # Save the segmentation volume in NIfTI format
     slicer.util.saveNode(export_volume_node, output_file)
     # Remove the exported node
@@ -212,30 +223,53 @@ def create_randomsplits(list_patients):
     :param list_patients: the list of verified/ready patient's data.
     :return: Lists of the No° of train and validation data split.
     """
-    print(f"Here the list of the {len(list_patients)} patient's data selected : {list_patients}")
-    amount_data = input(f'Choose how many patient you want to use to train/validation the algorythm (default : all)')
-    if amount_data == '':
-        amount_data = len(list_patients)
-    elif amount_data.isdigit() == False:
-        raise TypeError("The amount choosen is not a number.")
-    elif int(amount_data) > len(list_patients):
-        raise ValueError("The amount choosen exceeds the number of ready patient's data.")
-    amount_validation_data = input(f'Choose how many patient you want to validation the algorythm (default : 15) :')
-    if amount_validation_data == "":
-        amount_validation_data = 15
-    elif amount_validation_data.isdigit() == False:
-        raise TypeError("The amount choosen is not a number.")
-    elif int(amount_validation_data) > int(amount_data):
-        raise ValueError("The amount choosen exceeds the number of selected patients.")
-    validation_data = random.sample(list_patients, int(amount_validation_data))
-    for val in validation_data:
-        list_patients.remove(val)
-    train_data = random.sample(list_patients, int(amount_data)-int(amount_validation_data))
-    print(f"Here is the result of the random split  :\n\t{len(train_data)} training data {train_data}\n\t{len(validation_data)}"
-          f" validation data {validation_data}")
-    train_data = sorted(train_data)
-    validation_data = sorted(validation_data)
-    return train_data, validation_data
+    choice = input(f'Do you want to perform a simple train/test split (1) or a cross-validation split (2) ? (1 or 2) : ')
+    if choice == "1":
+        print(f"Here the list of the {len(list_patients)} patient's data selected : {list_patients}")
+        amount_data = input(f'Choose how many patient you want to use to train/validation the algorythm (default : all)')
+        if amount_data == '':
+            amount_data = len(list_patients)
+        elif amount_data.isdigit() == False:
+            raise TypeError("The amount choosen is not a number.")
+        elif int(amount_data) > len(list_patients):
+            raise ValueError("The amount choosen exceeds the number of ready patient's data.")
+        amount_validation_data = input(f'Choose how many patient you want to validation the algorythm (default : 15) :')
+        if amount_validation_data == "":
+            amount_validation_data = 15
+        elif amount_validation_data.isdigit() == False:
+            raise TypeError("The amount choosen is not a number.")
+        elif int(amount_validation_data) > int(amount_data):
+            raise ValueError("The amount choosen exceeds the number of selected patients.")
+        validation_data = random.sample(list_patients, int(amount_validation_data))
+        for val in validation_data:
+            list_patients.remove(val)
+        train_data = random.sample(list_patients, int(amount_data)-int(amount_validation_data))
+        print(f"Here is the result of the random split  :\n\t{len(train_data)} training data {train_data}\n\t{len(validation_data)}"
+              f" validation data {validation_data}")
+        train_data = sorted(train_data)
+        validation_data = sorted(validation_data)
+        return [train_data, validation_data], False
+    elif choice == "2":
+        n_splits = input(f'How many splits do you want to perform (default : 4) : ')
+        if n_splits == "":
+            n_splits = 4
+        else:
+            n_splits = int(n_splits)
+        # Generate the KFold splits (train and val indices)
+        kf = KFold(n_splits=n_splits, shuffle=True, random_state=42)
+        split = [(train_index, val_index) for train_index, val_index in kf.split(list_patients)]
+
+        # Replace indices with actual patient IDs
+        split_with_ids = []
+        for train_index, val_index in split:
+            train_patients = [list_patients[i] for i in train_index]  # Map train indices to patient IDs
+            val_patients = [list_patients[i] for i in val_index]  # Map test indices to patient IDs
+            split_with_ids.append((train_patients, val_patients))
+
+        for i in range(n_splits):
+            print(f'\nSplit {i+1} : \n\tTrain : {split_with_ids[i][0]}\n\tValidation : {split_with_ids[i][1]}')
+        return split_with_ids, True
+
 
 def sort(path, list_patients):
     """
@@ -246,46 +280,91 @@ def sort(path, list_patients):
     2 folds are generated (train/validation data) and it is possible to use a certain amount of the patient's list
     randomized (in order to observe to influence of the training data size on the accuracy).
     """
-    train_data, validation_data = create_randomsplits(list_patients)
-
+    train_val_data, flag_crossval = create_randomsplits(list_patients)
     print(f'\n\tSorting the files...')
-    #Delete the previous directories
-    if os.path.exists("../Data/RMIs/data_folder"):
-        shutil.rmtree("../Data/RMIs/data_folder")
-    #The tree is generated as written in the MPUnet datasheet
-    os.makedirs("../Data/RMIs/data_folder/train/images")
-    os.makedirs("../Data/RMIs/data_folder/train/labels")
-    os.makedirs("../Data/RMIs/data_folder/val/images")
-    os.makedirs("../Data/RMIs/data_folder/val/labels")
-    os.makedirs("../Data/RMIs/data_folder/test/images")
-    os.makedirs("../Data/RMIs/data_folder/test/labels")
 
-    #Sorting the training data
-    for individual in train_data:
-        individual = str(individual)
-        print(f'Sorting patient No° {individual} as a train data')
-        if "image.nii.gz" not in os.listdir(path + "/" + individual):
-            raise FileNotFoundError(f'"image.nii.gz" not found in {path + "/" + individual}, please convert the DICOM data in a unique .nii.gz file.')
-        elif "segmentation.nii.gz" not in os.listdir(path + "/" + individual):
-            raise FileNotFoundError(f'"segmentation.nii.gz" not found in {path + "/" + individual}, please convert the segmentations data in a unique .nii.gz file.')
-        else:
-            shutil.copy(path + "/" + individual + "/" + "image.nii.gz", "../Data/RMIs/data_folder/train/images/"+individual+".nii.gz")
-            shutil.copy(path + "/" + individual + "/" + "segmentation.nii.gz", "../Data/RMIs/data_folder/train/labels/"+individual+".nii.gz")
+    #In case of cross-validation splits
+    if flag_crossval == True:
+        #Delete the previous directories
+        if os.path.exists("../Data/RMIs/data_folder"):
+            shutil.rmtree("../Data/RMIs/data_folder")
+        #The tree is generated as written in the MPUnet datasheet
+        for i in range(len(train_val_data)):
+            os.makedirs(f"../Data/RMIs/data_folder/split_{i+1}/data_folder/train/images")
+            os.makedirs(f"../Data/RMIs/data_folder/split_{i+1}/data_folder/train/labels")
+            os.makedirs(f"../Data/RMIs/data_folder/split_{i+1}/data_folder/val/images")
+            os.makedirs(f"../Data/RMIs/data_folder/split_{i+1}/data_folder/val/labels")
+            os.makedirs(f"../Data/RMIs/data_folder/split_{i+1}/data_folder/test/images")
+            os.makedirs(f"../Data/RMIs/data_folder/split_{i+1}/data_folder/test/labels")
+            print(f"Sorting the split {i+1}")
+            # Sorting the training data
+            for individual in train_val_data[i][0]:
+                individual = str(individual)
+                if "image.nii.gz" not in os.listdir(path + "/" + individual):
+                    raise FileNotFoundError(
+                        f'"image.nii.gz" not found in {path + "/" + individual}, please convert the DICOM data in a unique .nii.gz file.')
+                elif "segmentation.nii.gz" not in os.listdir(path + "/" + individual):
+                    raise FileNotFoundError(
+                        f'"segmentation.nii.gz" not found in {path + "/" + individual}, please convert the segmentations data in a unique .nii.gz file.')
+                else:
+                    shutil.copy(path + "/" + individual + "/" + "image.nii.gz",
+                                f"../Data/RMIs/data_folder/split_{i+1}/data_folder/train/images/" + individual + ".nii.gz")
+                    shutil.copy(path + "/" + individual + "/" + "segmentation.nii.gz",
+                                f"../Data/RMIs/data_folder/split_{i+1}/data_folder/train/labels/" + individual + ".nii.gz")
+            # Sorting the validation data
+            for individual in train_val_data[i][1]:
+                individual = str(individual)
+                if "image.nii.gz" not in os.listdir(path + "/" + individual):
+                    raise FileNotFoundError(
+                        f'"image.nii.gz" not found in {path + "/" + individual}, please convert the DICOM data in a unique .nii.gz file.')
+                elif "segmentation.nii.gz" not in os.listdir(path + "/" + individual):
+                    raise FileNotFoundError(
+                        f'"segmentation.nii.gz" not found in {path + "/" + individual}, please convert the segmentations data in a unique .nii.gz file.')
+                else:
+                    shutil.copy(path + "/" + individual + "/" + "image.nii.gz",
+                                f"../Data/RMIs/data_folder/split_{i+1}/data_folder/val/images/" + individual + ".nii.gz")
+                    shutil.copy(path + "/" + individual + "/" + "segmentation.nii.gz",
+                                f"../Data/RMIs/data_folder/split_{i+1}/data_folder/val/labels/" + individual + ".nii.gz")
 
-    # Sorting the validation data
-    for individual in validation_data:
-        individual = str(individual)
-        print(f'Sorting patient No° {individual} as a validation data')
-        if "image.nii.gz" not in os.listdir(path + "/" + individual):
-            raise FileNotFoundError(
-                f'"image.nii.gz" not found in {path + "/" + individual}, please convert the DICOM data in a unique .nii.gz file.')
-        elif "segmentation.nii.gz" not in os.listdir(path + "/" + individual):
-            raise FileNotFoundError(
-                f'"segmentation.nii.gz" not found in {path + "/" + individual}, please convert the segmentations data in a unique .nii.gz file.')
-        else:
-            shutil.copy(path + "/" + individual +"/"+ "image.nii.gz",
-                        "../Data/RMIs/data_folder/val/images/" + individual + ".nii.gz")
-            shutil.copy(path + "/" + individual +"/"+ "segmentation.nii.gz",
-                        "../Data/RMIs/data_folder/val/labels/" + individual + ".nii.gz")
+    #Standard train/val split.
+    else:
+        #Delete the previous directories
+        if os.path.exists("../Data/RMIs/data_folder"):
+            shutil.rmtree("../Data/RMIs/data_folder")
+        #The tree is generated as written in the MPUnet datasheet
+        os.makedirs("../Data/RMIs/data_folder/train/images")
+        os.makedirs("../Data/RMIs/data_folder/train/labels")
+        os.makedirs("../Data/RMIs/data_folder/val/images")
+        os.makedirs("../Data/RMIs/data_folder/val/labels")
+        os.makedirs("../Data/RMIs/data_folder/test/images")
+        os.makedirs("../Data/RMIs/data_folder/test/labels")
+
+        #Sorting the training data
+        for individual in train_val_data[0]:
+            individual = str(individual)
+            print(f'Sorting patient No° {individual} as a train data')
+            if "image.nii.gz" not in os.listdir(path + "/" + individual):
+                raise FileNotFoundError(f'"image.nii.gz" not found in {path + "/" + individual}, please convert the DICOM data in a unique .nii.gz file.')
+            elif "segmentation.nii.gz" not in os.listdir(path + "/" + individual):
+                raise FileNotFoundError(f'"segmentation.nii.gz" not found in {path + "/" + individual}, please convert the segmentations data in a unique .nii.gz file.')
+            else:
+                shutil.copy(path + "/" + individual + "/" + "image.nii.gz", "../Data/RMIs/data_folder/train/images/"+individual+".nii.gz")
+                shutil.copy(path + "/" + individual + "/" + "segmentation.nii.gz", "../Data/RMIs/data_folder/train/labels/"+individual+".nii.gz")
+
+        # Sorting the validation data
+        for individual in train_val_data[1]:
+            individual = str(individual)
+            print(f'Sorting patient No° {individual} as a validation data')
+            if "image.nii.gz" not in os.listdir(path + "/" + individual):
+                raise FileNotFoundError(
+                    f'"image.nii.gz" not found in {path + "/" + individual}, please convert the DICOM data in a unique .nii.gz file.')
+            elif "segmentation.nii.gz" not in os.listdir(path + "/" + individual):
+                raise FileNotFoundError(
+                    f'"segmentation.nii.gz" not found in {path + "/" + individual}, please convert the segmentations data in a unique .nii.gz file.')
+            else:
+                shutil.copy(path + "/" + individual +"/"+ "image.nii.gz",
+                            "../Data/RMIs/data_folder/val/images/" + individual + ".nii.gz")
+                shutil.copy(path + "/" + individual +"/"+ "segmentation.nii.gz",
+                            "../Data/RMIs/data_folder/val/labels/" + individual + ".nii.gz")
     return
 
