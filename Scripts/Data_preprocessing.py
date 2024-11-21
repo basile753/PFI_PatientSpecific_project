@@ -255,7 +255,7 @@ def write_log(list, split):
     This function writes down the results of the train/val splits with date and time.
     """
     if os.path.exists("../Logs/data_preprocessing_log.txt"):
-        os.remove(file_path)
+        os.remove("../Logs/data_preprocessing_log.txt")
     with open("../Logs/data_preprocessing_log.txt", "w") as file:
         file.write(f'The follwing split was performed at date : {datetime.now()}\n\n{len(list)}data were processed : '
                    f'{list}\n\nThe following split was performed {split}\nend-----------------------------------\n')

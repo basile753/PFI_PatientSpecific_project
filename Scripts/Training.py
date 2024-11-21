@@ -81,13 +81,15 @@ def simple_train_mpunet(data_dir, root, name, project_dir):
     os.chdir(script_path)
     print(f"{name}'s training is done.")
 
-def entry(data_dir="../Data/RMIs/data_folder", root="../Models"):
+def entry(root="../Models"):
     """
     This is the entry function of the training script
     """
     print("IMPORTANT NOTE : If you wish to perform cross-validation training, please perform each split separately as simple "
           "train/val processes")
-
+    data_dir = input("Enter the data directory (default : ../Data/RMIs/data_folder): ")
+    if data_dir == '':
+        data_dir = "../Data/RMIs/data_folder"
     model = input("Enter the model you would like to train between these [MPunet: 1, NNunet: NOT READY] : ")
     if model == '1':
         model = "MPunet"
@@ -99,8 +101,8 @@ def entry(data_dir="../Data/RMIs/data_folder", root="../Models"):
     else:
         type = "split"+type
     name = f'{model}_{train}train_{val}val_{type}'
-
     project_dir = f"{root}/{name}"
+    os.makedirs(project_dir, exist_ok=True)
     if os.path.exists("../Logs/data_preprocessing_log.txt"):
         shutil.copy("../Logs/data_preprocessing_log.txt", f'{project_dir}/data_preprocessing_log.txt')
 
