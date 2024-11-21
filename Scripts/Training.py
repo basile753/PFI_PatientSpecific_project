@@ -93,8 +93,8 @@ def entry(root="../Models"):
     model = input("Enter the model you would like to train between these [MPunet: 1, NNunet: NOT READY] : ")
     if model == '1':
         model = "MPunet"
-    train = len(os.listdir(data_dir+"/train"))
-    val = len(os.listdir(data_dir + "/val"))
+    train = len(os.listdir(data_dir+"/train/images"))
+    val = len(os.listdir(data_dir + "/val/images"))
     type = input("Enter the split number or let it blank if this is a simple training without cross validation : ")
     if type == "":
         type = "simple"
