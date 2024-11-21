@@ -1,28 +1,20 @@
 """
-This is the main script on the project, it aims to interact with the other scripts in order to pre-process the data,
-train or evaluate models.
+This is the main script of the project, it aims to interact with the other scripts in order to pre-process the data,
+train and evaluate models.
 """
 import os
-
-import Data_preprocessing as dp
-import train_MPunet as trmp
+import Data_preprocessing
+import Training
 
 def main():
     #-----Pre-processing---------------------
     if input("Would you like to pre-process data ? (y/n) ") == "y":
-        path = input("Enter the path of the RMIs Data : ") #Enter the path to the manual segmentation's data
-        if type(path) is not str:
-            raise TypeError("The path must be a chain of characters")
-        else:
-            dp.normalize(path) #Normalizing the data
-            flag, list_patients = dp.check(path) #check which data are ready
-            if flag == "y":
-                dp.sort(path, list_patients) #Randomly sort the data that are ready in train/validation folders
+        Data_preprocessing.entry()
     #---------------------------------------
 
-    #-----Training the MPUnet model---------
-    if input("Would you like to train a MPUnet model on the sorted data ? (y/n) ") == "y":
-        trmp.entry()
+    #-----Training the model---------
+    if input("Would you like to train a model on the sorted data ? (y/n) ") == "y":
+        Training.entry()
     # ---------------------------------------
 
 if __name__ == '__main__':

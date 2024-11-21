@@ -3,6 +3,7 @@ import random
 import utils
 import os
 from sklearn.model_selection import KFold
+from datetime import datetime
 
 segmented_stl = {
         "Femur": ["Fem", "fem", "femur"],
@@ -87,134 +88,15 @@ def check(path):
     print(f'\nTotal of patients considered : {n}')
     print(f'Number of patients data ready (fully segmented with DICOM in the folder) : {len(list_ready)}')
     print(f'\tList of the patients ready : {list_ready}')
-    if input(f'\n generate niftii files (if not already) for the data that are ready ? (y/n) : ') == 'y':
-        generate_niftii(path, list_ready)
-    return input(f'\nSort the files in "PFI_Autosegmentation_project/Data/RMIs/data_folder" ? (y/n) : '), list_ready
-
-def generate_niftii(path, list_patients):
-    """
-    Generate the .nii files from the images and segmentations of every patients, format used to train the MPUnet algorythm.
-    The conversion is made through the 3D slicer software that must be installed on the device.
-    :param path: The path to the patient's data.
-    :param list_patients: A list of the No° of the patient whose files are ready for niftii file generation.
-    """
-    # Path to the 3D Slicer executable
-    slicer_path = input("\nEnter your path to 3Dslicer software (default : D:\Programmes\Slicer 5.6.2\Slicer.exe) :")
-    print("\n\tGenerating niftii files...")
-    for individual in list_patients:
-        script_dicom_to_nii = f"""
-import os
-import slicer
-from DICOMLib import DICOMUtils
-
-# Path to the DICOM folder and the output NIfTI file
-dicom_folder = "{path}/{individual}"
-output_file = "{path}/{individual}/image.nii.gz"
-
-# Step 1: Load DICOM images
-def load_dicom(dicom_folder):
-    # Initialize the DICOM database if it is not already open
-    if not slicer.dicomDatabase.isOpen:
-        slicer.dicomDatabase.initializeDatabase(os.path.join(slicer.app.temporaryPath, 'ctkDICOM.sql'))
-    
-    # Import the DICOM folder and load the series
-    with DICOMUtils.TemporaryDICOMDatabase() as db:
-        DICOMUtils.importDicom(dicom_folder, db)
-        
-        # Automatically load the first DICOM series found
-        patient_uid = db.patients()[0]
-        study_uid = db.studiesForPatient(patient_uid)[0]
-        series_uid = db.seriesForStudy(study_uid)[0]
-        
-        loaded_node_ids = DICOMUtils.loadSeriesByUID([series_uid])
-        volume_node = slicer.mrmlScene.GetNodeByID(loaded_node_ids[0]) if loaded_node_ids else None
-        return volume_node
-
-# Step 2: Export to .nii.gz
-def export_volume_as_nifti(volume_node, output_file):
-    if volume_node:
-        slicer.util.saveNode(volume_node, output_file)
-
-# Run the DICOM to NIfTI conversion
-volume_node = load_dicom(dicom_folder)
-export_volume_as_nifti(volume_node, output_file)
-
-# Clean exit from Slicer
-slicer.app.exit()
-        """
-        script_segments_to_nii = f"""
-import os
-import slicer
-from DICOMLib import DICOMUtils
-
-# Path to the folder containing STL files and the output NIfTI file
-stl_folder = r"{path}\{individual}"  # Folder containing the .stl files
-output_file = r"{path}\{individual}\segmentation.nii.gz"
-
-# Step 1: Import STL files as segments of a single segmentation
-def import_stl_as_segmentation(stl_folder):
-    # Create a segmentation node
-    segmentation_node = slicer.mrmlScene.AddNewNodeByClass("vtkMRMLSegmentationNode")
-    segmentation_node.CreateDefaultDisplayNodes()  # To visualize the segments
-
-    # Add each STL file as a separate segment
-    segment_names = {list(segmented_stl.keys())}  # List of segment names
-    for idx, stl_file in enumerate(segment_names, start=1):
-        stl_file += ".stl"
-        # Load the STL file as a temporary model
-        model_node = slicer.util.loadModel("{path}/{individual}/" + stl_file)
-        # Add the model as a new segment in the segmentation node
-        slicer.modules.segmentations.logic().ImportModelToSegmentationNode(model_node, segmentation_node)
-        # Assign a unique integer label to each segment for discrete labeling
-        segment = segmentation_node.GetSegmentation().GetNthSegment(idx - 1)
-        segment.SetTag("LabelValue", str(idx))  # Set unique integer label
-
-        # Remove the temporary model
-        slicer.mrmlScene.RemoveNode(model_node)
-
-    return segmentation_node
-
-# Step 2: Export the segmentation to .nii.gz with discrete labels
-def export_segmentation_as_nifti(segmentation_node, output_file):
-    # Convert the segmentation to a label map volume with discrete labels
-    export_volume_node = slicer.mrmlScene.AddNewNodeByClass("vtkMRMLLabelMapVolumeNode")
-    slicer.modules.segmentations.logic().ExportAllSegmentsToLabelmapNode(segmentation_node, export_volume_node)
-
-    # Ensure that the label map contains discrete integer values
-    labelmap_array = slicer.util.arrayFromVolume(export_volume_node)
-    labelmap_array = labelmap_array.astype(int)  # Convert to integer type
-    slicer.util.updateVolumeFromArray(export_volume_node, labelmap_array)
-
-    # Save the segmentation volume in NIfTI format
-    slicer.util.saveNode(export_volume_node, output_file)
-    # Remove the exported node
-    slicer.mrmlScene.RemoveNode(export_volume_node)
-
-# Execute the segmentation process
-segmentation_node = import_stl_as_segmentation(stl_folder)
-export_segmentation_as_nifti(segmentation_node, output_file)
-
-# Clean exit from Slicer
-slicer.app.exit()
-        """
-        if os.path.exists("convert"):
-            shutil.rmtree("convert")
-        os.makedirs("convert")
-        with open("convert/dicom_to_nii.py", 'w', encoding="utf-8") as file:
-            file.write(script_dicom_to_nii)
-            file.close()
-        with open("convert/segments_to_nii.py", 'w', encoding="utf-8") as file:
-            file.write(script_segments_to_nii)
-            file.close()
-        if not os.path.exists(f"{path}/{individual}/image.nii.gz"):
-            utils.execute_3dslicer("convert/dicom_to_nii.py", slicer_path)
-            print(f"Image Niftii file generated for patient No° {individual}")
-        if not os.path.exists(f"{path}/{individual}/segmentation.nii.gz"):
-            utils.execute_3dslicer("convert/segments_to_nii.py", slicer_path)
-            print(f"Segmentation Niftii file generated for patient No° {individual}")
-        else:
-            print(f"Niftii files already generated for patient No° {individual}\n")
-    return
+    print(f'\nVerifying that the NiFTII files are generated for the patients that are ready...')
+    for individual in list_ready:
+        if 'image.nii.gz' not in os.listdir(path+"/"+str(individual)):
+            print(f'\timage.nii.gz is missing from patient No° {individual}, please generate before training the model.')
+        if 'segmentation.nii.gz' not in os.listdir(path+"/"+str(individual)):
+            print(f'\tsegmentation.nii.gz is missing from patient No° {individual}, please generate before training the model.'
+                  f'\n\t WARNING : segmentation.nii.gz must be a binary labelmap that has the same dimensions as the '
+                  f'image, use 3Dslicer DWI Volume to resample.')
+    return list_ready
 
 def create_randomsplits(list_patients):
     """
@@ -366,5 +248,32 @@ def sort(path, list_patients):
                             "../Data/RMIs/data_folder/val/images/" + individual + ".nii.gz")
                 shutil.copy(path + "/" + individual +"/"+ "segmentation.nii.gz",
                             "../Data/RMIs/data_folder/val/labels/" + individual + ".nii.gz")
-    return
+    return train_val_data
+
+def write_log(list, split):
+    """
+    This function writes down the results of the train/val splits with date and time.
+    """
+    if os.path.exists("../Logs/data_preprocessing_log.txt"):
+        os.remove(file_path)
+    with open("../Logs/data_preprocessing_log.txt", "w") as file:
+        file.write(f'The follwing split was performed at date : {datetime.now()}\n\n{len(list)}data were processed : '
+                   f'{list}\n\nThe following split was performed {split}\nend-----------------------------------\n')
+
+def entry():
+    """
+    This is the entry function of the pre-processing script
+    """
+    path = input("Enter the path of the RMIs Data : ")  # Enter the path to the manual segmentation's data
+    if type(path) is not str:
+        raise TypeError("The path must be a chain of characters")
+    if input("Would you like to normalize the Data ? (y/n) : ") == "y":
+        normalize(path) #Normalizing the nomenclature of the .stl files
+    if input("Would you like to check the missing files for each patient ? NECESSARY for further sorting process "
+             "(y/n) : ") == "y":
+        list_patients = check(path) #check which data are ready
+        if input("Would you like to sort the Data in random train/val datasets ? (y/n) : ") == "y":
+            result = sort(path, list_patients) #Randomly sort the data that are ready in train/validation folders
+            write_log(list_patients, result)
+
 
