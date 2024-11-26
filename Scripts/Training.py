@@ -4,16 +4,14 @@ import sys
 import shutil
 
 global mp_path
-global script_path
 
 #You might need to change the path if you virtual environment is set up differently
 #On windows usually :
 #mp_path = "../.venv37/Lib/site-packages/mpunet/bin/mp.py"
 #On a linux venv :
 mp_path = "../.venv37/lib/python3.7/site-packages/mpunet/bin/mp.py"
-script_path = os.path.abspath(__file__)
 
-def simple_train_mpunet(data_dir, root, name, project_dir):
+def simple_train_mpunet(data_dir, root, name, project_dir, fusion_only_flag):
 
     mp_path_from_modeldirectory = f"../{mp_path}"
 
@@ -28,14 +26,15 @@ def simple_train_mpunet(data_dir, root, name, project_dir):
         n_gpus = 1
 
     # ------------INITIALISATION-------------
-    subprocess.run([
-        sys.executable,  # Path to the Python interpreter
-        mp_path,  # Path to the mp.py script
-        "init_project",  # Command to initialize the project
-        "--name", name,  # Name argument
-        "--data_dir", data_dir,  # Data directory argument
-        "--root", root  # Root directory argument
-    ], check=True)
+    if fusion_only_flag != "y":
+        subprocess.run([
+            sys.executable,  # Path to the Python interpreter
+            mp_path,  # Path to the mp.py script
+            "init_project",  # Command to initialize the project
+            "--name", name,  # Name argument
+            "--data_dir", data_dir,  # Data directory argument
+            "--root", root  # Root directory argument
+        ], check=True)
 
     # --------SETTING FIXED HYPERPARAMETERS--------------
     with open(f"{project_dir}/train_hparams.yaml", 'r') as file:
@@ -57,20 +56,25 @@ def simple_train_mpunet(data_dir, root, name, project_dir):
             #is actually way higher that the amount of sample originally provided (EX 28 images ==> 2528 data).
     updated_content = updated_content.replace('n_epochs: 500',
                                               f'n_epochs: {n_epochs}')
+    #patience refers to the amount of epochs without score's increase that will early stop the model's training.
+    updated_content = updated_content.replace('patience: 15','patience: 10')
     with open(f"{project_dir}/train_hparams.yaml", 'w') as file:
         file.write(updated_content)
         file.close()
 
     # -----------MPUNET TRAINING (2 phases)-------------
-    print(f"\nTraining the model {name}... This action may take a while...")
     os.chdir(project_dir)
-    subprocess.run([
-        sys.executable,
-        mp_path_from_modeldirectory,
-        "train",
-        "--overwrite",
-        f"--num_GPUs={n_gpus}"
-    ], check=True)
+    if fusion_only_flag != "y":
+        print(f"\nTraining the model {name}... This action may take a while...")
+        subprocess.run([
+            sys.executable,
+            mp_path_from_modeldirectory,
+            "train",
+            "--overwrite",
+            f"--num_GPUs={n_gpus}"
+        ], check=True)
+
+    print(f"\nFusion-train of the model {name}... This action may take a while...")
     subprocess.run([
         sys.executable,
         mp_path_from_modeldirectory,
@@ -78,7 +82,6 @@ def simple_train_mpunet(data_dir, root, name, project_dir):
         "--overwrite",
         f"--num_GPUs={n_gpus}"
     ], check=True)
-    os.chdir(script_path)
     print(f"{name}'s training is done.")
 
 def entry(root="../Models"):
@@ -98,16 +101,20 @@ def entry(root="../Models"):
     type = input("Enter the split number or let it blank if this is a simple training without cross validation : ")
     if type == "":
         type = "simple"
+        name = f'{model}_{train}train_{val}val_{type}'
     else:
         type = "split"+type
-    name = f'{model}_{train}train_{val}val_{type}'
+        name = f'{model}_{train+val}DATA_{type}'
     project_dir = f"{root}/{name}"
     os.makedirs(project_dir, exist_ok=True)
     if os.path.exists("../Logs/data_preprocessing_log.txt"):
         shutil.copy("../Logs/data_preprocessing_log.txt", f'{project_dir}/data_preprocessing_log.txt')
 
     if model == "MPunet":
-        simple_train_mpunet(data_dir, root, name, project_dir)
+        fusion_only_flag = input(f"IF THE UNET TRAINING HAS ALREADY BEEN DONE, Would you like to train fusion only "
+                                 f"on {name} ? (y/n) : ")
+        #This flag is here to easily "fusion train" a model that has already been trained or stopped during the training.
+        simple_train_mpunet(data_dir, root, name, project_dir, fusion_only_flag)
 
 
 

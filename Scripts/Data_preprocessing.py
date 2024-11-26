@@ -137,19 +137,36 @@ def create_randomsplits(list_patients):
             n_splits = 4
         else:
             n_splits = int(n_splits)
+
+        # Ask the user if they want to use a subset of the data
+        use_subset = input(f'Do you want to use a subset of the data? (y/n), default: no): ').strip().lower()
+        if use_subset in ["yes", "y"]:
+            subset_size = input(f'Enter the number of data you want in every split (default: use all data): ').strip()
+            if subset_size == "":
+                subset_size = len(list_patients)
+            else:
+                subset_size = int(subset_size)
+                subset_size = min(subset_size, len(list_patients))  # Ensure subset size does not exceed available data
+
+            # Randomly sample a subset of patients
+            list_patients_subset = random.sample(list_patients, subset_size)
+            print(f'Using a subset of {subset_size} patients out of {len(list_patients)}.')
+        else:
+            list_patients_subset = list_patients
+
         # Generate the KFold splits (train and val indices)
-        kf = KFold(n_splits=n_splits, shuffle=True, random_state=42)
-        split = [(train_index, val_index) for train_index, val_index in kf.split(list_patients)]
+        kf = KFold(n_splits=n_splits, shuffle=True, random_state=None)  # Random state set to None for true randomness
+        split = [(train_index, val_index) for train_index, val_index in kf.split(list_patients_subset)]
 
         # Replace indices with actual patient IDs
         split_with_ids = []
         for train_index, val_index in split:
-            train_patients = [list_patients[i] for i in train_index]  # Map train indices to patient IDs
-            val_patients = [list_patients[i] for i in val_index]  # Map test indices to patient IDs
+            train_patients = [list_patients_subset[i] for i in train_index]  # Map train indices to patient IDs
+            val_patients = [list_patients_subset[i] for i in val_index]  # Map test indices to patient IDs
             split_with_ids.append((train_patients, val_patients))
 
         for i in range(n_splits):
-            print(f'\nSplit {i+1} : \n\tTrain : {split_with_ids[i][0]}\n\tValidation : {split_with_ids[i][1]}')
+            print(f'\nSplit {i + 1} : \n\tTrain : {split_with_ids[i][0]}\n\tValidation : {split_with_ids[i][1]}')
         return split_with_ids, True
 
 
@@ -257,7 +274,7 @@ def write_log(list, split):
     if os.path.exists("../Logs/data_preprocessing_log.txt"):
         os.remove("../Logs/data_preprocessing_log.txt")
     with open("../Logs/data_preprocessing_log.txt", "w") as file:
-        file.write(f'The follwing split was performed at date : {datetime.now()}\n\n{len(list)}data were processed : '
+        file.write(f'The following split was performed at date : {datetime.now()}\n\n{len(list)}data were processed : '
                    f'{list}\n\nThe following split was performed {split}\nend-----------------------------------\n')
 
 def entry():

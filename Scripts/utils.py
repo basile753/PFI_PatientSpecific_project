@@ -1,9 +1,8 @@
 import os
 import subprocess
-import pandas as pd
 import nibabel as nib
-import re
 import numpy as np
+import h5py
 
 
 def create_No_empty_folders(path, start_No, end_No):
@@ -163,3 +162,41 @@ def show_niftii_info():
                 print(header)
                 input("\nPress to continue\n")
                 print(np.unique(data)) #Show all the labels in the file
+
+def read_H5_file(file_path):
+    try:
+        # Open the .h5 file
+        with h5py.File(file_path, 'r') as h5_file:
+            print(f"Successfully opened file: {file_path}\n")
+
+            # Recursively explore the file structure
+            def explore_h5_group(group, indent=0):
+                for key in group.keys():
+                    item = group[key]
+                    print(" " * indent + f"📂 {key} - {'Group' if isinstance(item, h5py.Group) else 'Dataset'}")
+                    if isinstance(item, h5py.Group):  # If it's a group, explore recursively
+                        explore_h5_group(item, indent + 4)
+                    elif isinstance(item, h5py.Dataset):  # If it's a dataset, show shape and dtype
+                        print(" " * (indent + 4) + f"📊 Shape: {item.shape}, Type: {item.dtype}")
+
+            # Start exploring the file from the root group
+            explore_h5_group(h5_file)
+
+            dataset_path = input("\nEnter the path to a dataset you want to open (or leave empty to skip): ").strip()
+            if dataset_path:
+                try:
+                    dataset = h5_file[dataset_path]
+                    print(f"\nDataset '{dataset_path}' opened successfully!")
+                    print(f"Shape: {dataset.shape}")
+                    print(f"Type: {dataset.dtype}")
+
+                    # Optionally print dataset data (be careful with large datasets!)
+                    view_data = input("Do you want to view the data? (yes/no): ").strip().lower()
+                    if view_data in ["yes", "y"]:
+                        print("\nData:")
+                        print(dataset[...])  # Access the data in the dataset
+                except KeyError:
+                    print(f"Dataset '{dataset_path}' not found in the file.")
+
+    except Exception as e:
+        print(f"Error reading file: {e}")
