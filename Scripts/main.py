@@ -7,17 +7,17 @@ import Data_preprocessing
 import Training
 import Auto_segment
 
-def main():
+def main(root: str):
     #-----Pre-processing---------------------
     if input("Would you like to pre-process data ? (y/n) ") == "y":
         Data_preprocessing.entry()
-        os.chdir(os.path.dirname(os.path.abspath(__file__)))
+        os.chdir(root)
     #---------------------------------------
 
     #-----Training the model---------
     if input("Would you like to train a model on the sorted data ? (y/n) ") == "y":
         Training.entry()
-        os.chdir(os.path.dirname(os.path.abspath(__file__)))
+        os.chdir(root)
     # ---------------------------------------
 
     #-----Auto-segment---------
@@ -26,6 +26,6 @@ def main():
     # ---------------------------------------
 
 if __name__ == '__main__':
-    os.chdir(os.path.dirname(os.path.abspath(__file__))) #Change the working directory to
-    # PFI_Autosegmentation_project/Scripts
-    main()
+    root = os.path.dirname(os.path.abspath(__file__))
+    os.chdir(root) #Change the working directory to PFI_Autosegmentation_project/Scripts
+    main(root)
