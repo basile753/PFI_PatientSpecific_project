@@ -63,7 +63,7 @@ def training_mpunet_3dunet(data_dir, root, name, project_dir, fusion_only_flag, 
         ], check=True)
 
         # --------INPUT FIXED HYPERPARAMETERS----------
-        print("By default n_classes: 10, loss function : SparseGeneralizedDiceLoss, batch size: 16, modify it directly in "
+        print("By default n_classes: 11, loss function : SparseGeneralizedDiceLoss, batch size: 14, modify it directly in "
               "Scripts/Training.py")
         n_epochs = input("Enter the number of epochs (default : 80) : ")
         if n_epochs == '':
@@ -72,7 +72,7 @@ def training_mpunet_3dunet(data_dir, root, name, project_dir, fusion_only_flag, 
             content = file.read()
             file.close()
         # Gain of time (otherwise the algorythm will determine itself)
-        updated_content = content.replace("n_classes: Null", "n_classes: 10")
+        updated_content = content.replace("n_classes: Null", "n_classes: 11")
 
         # Here change the loss function or the evaluation metric if you need.
         updated_content = updated_content.replace('loss: "SparseCategoricalCrossentropy"', 'loss: "SparseGeneralizedDiceLoss"')
@@ -81,7 +81,7 @@ def training_mpunet_3dunet(data_dir, root, name, project_dir, fusion_only_flag, 
         # Here enter the number of batch size and epochs (WARNING significantly influence the calculation time)
             # batch_size refers to the amount of data processed at once for noise reduction purpose
         updated_content = updated_content.replace('batch_size: 16',
-                                                  'batch_size: 16')
+                                                  'batch_size: 14')
             # n_epochs refers to the amount of time the entire dataset is passed through the model
                 #Note: Because of shuffling, Augmenters and the generation of 6 different views, the actual amount of data
                 #is actually way higher that the amount of sample originally provided (EX 28 images ==> 2528 data).
@@ -118,7 +118,8 @@ def train_fusion_mpunet(n_gpus, name, project_dir):
     mp_path_from_modeldirectory = f"../{mp_path}"
 
     # -----------MPUNET TRAINING (phase 2)-------------
-    os.chdir(project_dir)
+    if os.path.exists(project_dir):
+        os.chdir(project_dir)
     print(f"\nFusion-train of the model {name}... This action may take a while...")
     subprocess.run([
         sys.executable,

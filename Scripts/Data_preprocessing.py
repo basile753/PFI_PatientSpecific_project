@@ -14,7 +14,8 @@ segmented_stl = {
         "Tibia_cartilage_lateral": ["Tib_CA_lat", "TibAClat", "Lat Tib AC","Tib AC lat", "Tib_AC_lat", "Tib AC_lat", "Tibia_AC_lat", "Tibia AC lat", "Tib AC Lat", "Tibia AC_lat"],
         "Patella_cartilage": ["Patella_CA", "PatAC", "Patella AC", "Patella_AC", "Pat AC", "Pat_AC", "PatellaAC", "Patella Cartilage"],
         "Menisc_medial": ["menmed", "med men", "med_men", "Med men", "Med_men", "Menisci_med", "Menisci med", "Med Men", "Med Meniscus", "MedMeniscus", "Medial meniscus", "Med_meniscus", "men med", "men Med", "Men_med", "men_med"],
-        "Menisc_lateral": ["menlat", "lat men", "lat_men", "Lat men", "Lat_men", "Menisci_lat", "Menisci lat", "Lat Men", "Lat Meniscus", "LatMeniscus", "Lateral meniscus", "Lat_meniscus", "men lat", "men Lat", "Men_lat", "men_lat"],}
+        "Menisc_lateral": ["menlat", "lat men", "lat_men", "Lat men", "Lat_men", "Menisci_lat", "Menisci lat", "Lat Men", "Lat Meniscus", "LatMeniscus", "Lateral meniscus", "Lat_meniscus", "men lat", "men Lat", "Men_lat", "men_lat"],
+        "Fibula": ["Fib", "fib", "fibula", "fibu", "Fibu"]}
 
 def find_key_from_value(dict, val):
     """

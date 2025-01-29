@@ -33,29 +33,29 @@ def predict_mpunet_3dunet(im_path: str, mod_path: str, n_gpus, model_type: str):
         prediction_type = "predict_3D"
 
     #-------------Prediction---------------
-        if eval_flag == "y":
-            print(f"Prediction of the images in {im_path} with {mod_path} with evaluation")
-            subprocess.run([
-                sys.executable,  # Path to the Python interpreter
-                mp_path,  # Path to the mp.py script
-                prediction_type,
-                "--project_dir", mod_path,  # Name argument
-                f"--num_GPUs={n_gpus}", #Amount of GPUs to use
-                "--out_dir", output,
-                "--overwrite"
-            ], check=True)
-        else:
-            print(f"Prediction of the images in {im_path} with {mod_path} without evaluation")
-            subprocess.run([
-                sys.executable,  # Path to the Python interpreter
-                mp_path,  # Path to the mp.py script
-                prediction_type,
-                "--project_dir", mod_path,  # Name argument
-                f"--num_GPUs={n_gpus}",  # Amount of GPUs to use
-                "--out_dir", output,
-                "--no_eval",
-                "--overwrite"
-            ], check=True)
+    if eval_flag == "y":
+        print(f"Prediction of the images in {im_path} with {mod_path} with evaluation")
+        subprocess.run([
+            sys.executable,  # Path to the Python interpreter
+            mp_path,  # Path to the mp.py script
+            prediction_type,
+            "--project_dir", mod_path,  # Name argument
+            f"--num_GPUs={n_gpus}", #Amount of GPUs to use
+            "--out_dir", output,
+            "--overwrite"
+        ], check=True)
+    else:
+        print(f"Prediction of the images in {im_path} with {mod_path} without evaluation")
+        subprocess.run([
+            sys.executable,  # Path to the Python interpreter
+            mp_path,  # Path to the mp.py script
+            prediction_type,
+            "--project_dir", mod_path,  # Name argument
+            f"--num_GPUs={n_gpus}",  # Amount of GPUs to use
+            "--out_dir", output,
+            "--no_eval",
+            "--overwrite"
+        ], check=True)
 
 
 def entry():

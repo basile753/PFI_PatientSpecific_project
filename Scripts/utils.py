@@ -200,3 +200,5 @@ def read_H5_file(file_path):
 
     except Exception as e:
         print(f"Error reading file: {e}")
+
+#transform_trc(r"D:\Antoine\TN10_uOttawa\Data\Opensim\Results\lungeup_markerless\output.trc", r"D:\Antoine\TN10_uOttawa\Data\Opensim\Results\lungeup_markerless\output.trc")
