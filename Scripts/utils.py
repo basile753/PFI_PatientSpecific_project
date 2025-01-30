@@ -3,6 +3,7 @@ import subprocess
 import nibabel as nib
 import numpy as np
 import h5py
+import shutil
 
 
 def create_No_empty_folders(path, start_No, end_No):
@@ -13,69 +14,17 @@ def create_No_empty_folders(path, start_No, end_No):
         if not os.path.exists(path + str(i)):
             os.makedirs(path + str(i))
 
-def execute_3dslicer(script: str, slicer_path):
+def execute_3dslicer(script: str, slicer_path="D:\Programmes\Slicer 5.6.2\Slicer.exe"):
     """
     With this function you can run 3Dslicer executing the script of your choice.
     :param script: Enter the script you want to execute.
-    :return:
     """
-    if slicer_path == "":
-        slicer_path = "D:\Programmes\Slicer 5.6.2\Slicer.exe"
     if os.path.exists(slicer_path):
         # Run Slicer with the specified script
-        subprocess.run([slicer_path, "--no-splash", "--python-script", script])
+        subprocess.run([slicer_path, "--no-splash", "--no-main-window", "--python-script", script])
+    else:
+        raise FileNotFoundError(f"Your Slicer.exe path is not valid: {slicer_path}")
 
-
-def transform_trc(input_path, output_path):
-    with open(input_path, 'r') as file:
-        lines = file.readlines()
-
-    # Preserve the first 6 lines as the header
-    header_lines = lines[:6]
-    data_lines = lines[6:]
-    print(header_lines)
-
-    transformed_data_lines = []
-
-    # Process and transform the data
-    for line in data_lines:
-        elements = line.split()
-        if len(elements) < 2:
-            continue  # Skip lines without enough data
-
-        transformed_line = elements[:2]  # Frame number and time are unchanged
-        marker_data = elements[2:]
-
-        # Process marker coordinates in groups of 3 (X, Y, Z)
-        for i in range(0, len(marker_data), 3):
-            try:
-                # Validate and transform coordinates
-                x = float(marker_data[i])
-                y = float(marker_data[i + 1])
-                z = float(marker_data[i + 2])
-
-                # Apply the transformation
-                new_x = y
-                new_y = z
-                new_z = x
-
-                # Append the transformed coordinates to the line
-                transformed_line.extend([f"{new_x:.6f}", f"{new_y:.6f}", f"{new_z:.6f}"])
-            except (ValueError, IndexError):
-                # Skip invalid or incomplete marker groups
-                continue
-
-        # Join transformed line into a string and append
-        transformed_data_lines.append("\t".join(transformed_line) + "\n")
-
-    # Combine headers and transformed data
-    transformed_content = "".join(header_lines) + "".join(transformed_data_lines)
-
-    # Save the transformed content to a new file
-    with open(output_path, 'w') as file:
-        file.write(transformed_content)
-
-    print(f"Transformation complete. Transformed file saved as {output_path}.")
 
 def change_niftii_labels():
     """
@@ -201,4 +150,44 @@ def read_H5_file(file_path):
     except Exception as e:
         print(f"Error reading file: {e}")
 
-#transform_trc(r"D:\Antoine\TN10_uOttawa\Data\Opensim\Results\lungeup_markerless\output.trc", r"D:\Antoine\TN10_uOttawa\Data\Opensim\Results\lungeup_markerless\output.trc")
+def export_stl_from_niftii(file_path: str, slicer_path):
+    """This function export every part from a segmentation stored in the .nii.gz format into separate .stl files"""
+    segment_names = ["Femur", "Femur_cartilage", "Tibia", "Tibia_cartilage_lateral", "Tibia_cartilage_medial",
+                     "Menisc_lateral", "Menisc_medial", "Patella", "Patella_cartilage", "Fibula"]
+    output_folder = os.path.join(file_path, "../", file_path.split("_PRED")[0])
+    if os.path.exists(output_folder):
+        shutil.rmtree(output_folder)
+    os.makedirs(output_folder)
+    script= \
+    'import slicer\n'\
+    'import os\n'\
+    '# Set paths\n'\
+    f'input_nifti_path = r"{file_path}"\n'\
+    f'output_folder = r"{output_folder}"\n'\
+    '# Load the .nii.gz as a segmentation directly\n'\
+    'segmentation_node = slicer.util.loadSegmentation(input_nifti_path)\n'\
+    '# Get segment IDs\n'\
+    'segmentation = segmentation_node.GetSegmentation()\n'\
+    'segment_ids = [segmentation.GetNthSegmentID(i) for i in range(segmentation.GetNumberOfSegments())]\n'\
+    '# Export each segment separately\n'\
+    'for seg_id in segment_ids:\n'\
+    '    temp_segment_node = slicer.mrmlScene.AddNewNodeByClass("vtkMRMLSegmentationNode")\n'\
+    '    temp_segment_node.GetSegmentation().CopySegmentFromSegmentation(segmentation, seg_id)\n'\
+    '    slicer.modules.segmentations.logic().ExportSegmentsClosedSurfaceRepresentationToFiles(\n'\
+    '        output_folder, temp_segment_node\n'\
+    '    )\n'\
+    '    slicer.app.quit() # quit the scene'
+
+    with open("temp_export_stl_to_niftii.py", "w") as f:
+        f.write(script)
+        f.close()
+    if slicer_path != "":
+        execute_3dslicer("temp_export_stl_to_niftii.py", slicer_path=slicer_path)
+    else:
+        execute_3dslicer("temp_export_stl_to_niftii.py")
+    os.remove("temp_export_stl_to_niftii.py")
+    for file in os.listdir(output_folder):
+        i = int(file.split("_")[-1].split(".")[0])
+        os.rename(os.path.join(output_folder, file), os.path.join(output_folder, segment_names[i-1] + ".stl"))
+    print(f'files exported at {output_folder}.')
+

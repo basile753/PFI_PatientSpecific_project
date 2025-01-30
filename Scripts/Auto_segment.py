@@ -60,15 +60,15 @@ def predict_mpunet_3dunet(im_path: str, mod_path: str, n_gpus, model_type: str):
 
 def entry():
     """
-    This is the entry function of the auto-segmentation script. Please use it if you wish to perfom predictions.
+    This is the entry function of the auto-segmentation script. Please use it if you wish to perform predictions (an automated segmentation).
     """
     #Paths to images and model
     images_path = input("Enter the ABSOLUTE path to the images you would like to auto-segment, Must contain sub-folder 'images'"
                         " with the .nii.gz images (default: /container/Data/RMIs/to_predict): ")
     if images_path == "":
         images_path = "/container/Data/RMIs/to_predict"
-    #if not os.path.exists(images_path):
-    #    raise FileExistsError("The path you entered does not exist")
+    if not os.path.exists(images_path):
+        raise FileExistsError("The path you entered does not exist")
     model = input("Enter the name of the model you would like to use (default: MPunet_41DATA_split1): ")
     if model == "":
         model = "MPunet_41DATA_split1"
