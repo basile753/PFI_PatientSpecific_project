@@ -12,12 +12,10 @@ Read the following thesis for more information : INSERT ANNAGH'S THESIS
 
 ------------------------------------------------- HOW TO USE
 
-IMPORTANT to use the project, create a CONDA VirtualEnvironment named ".venv_conda" in the root directory, based on Python3.7 with the pip requirement from the requirement.txt file. Then manually install the Opensim module with conda install (as it is not available using pip).
-To summarize, run the Following commands in the root project directory: 
+IMPORTANT to use the project, create a CONDA VirtualEnvironment named ".venv_conda" in the root directory, based on Python3.7 with the pip requirement from the requirement.txt file. To summarize, run the Following commands in the root project directory: 
 	> conda create --prefix .venv_conda python=3.7
 	> conda activate .venv_conda
 	> conda install --file requirements.txt
-	> conda install opensim
 
 ==> Compatible with CUDA10.1 Cudnn7, have all the necessary libraries and GPUs (nvidia) toolkits installed.
 
