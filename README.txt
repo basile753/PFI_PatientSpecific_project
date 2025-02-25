@@ -12,20 +12,53 @@ Read the following thesis for more information : INSERT ANNAGH'S THESIS
 
 ------------------------------------------------- HOW TO USE
 
-IMPORTANT to use the project, create a VirtualEnvironment named ".venv37" right in the root directory based on Python3.7 with the requirement from the requirement.txt file.
+IMPORTANT to use the project, create a CONDA VirtualEnvironment named ".venv_conda" in the root directory, based on Python3.7 with the pip requirement from the requirement.txt file. Then manually install the Opensim module with conda install (as it is not available using pip).
+To summarize, run the Following commands in the root project directory: 
+	> conda create --prefix .venv_conda python=3.7
+	> conda activate .venv_conda
+	> conda install --file requirements.txt
+	> conda install opensim
+
 ==> Compatible with CUDA10.1 Cudnn7, have all the necessary libraries and GPUs (nvidia) toolkits installed.
 
 Then SIMPLY RUN THE main.py SCRIPT
 
-You might need to use Docker to set up your own version of CUDA10.1 Cudnn7, the Dockerfile present in the project in functionnal and ready-to-use.
+You might need to use a Docker to set up your own version of CUDA10.1 Cudnn7 if your system doesn't allow another/several CUDA versions for the training/predicting phases (options 2 and 3), to do so process the Dockerfile present in the project root folder with the following commands:
+	> docker build -t project_name
+	> docker run --gpus all -it project_name 
+Then run the main.py script within the running docker.
+Also to eventually import/export Data inside the running Docker or export results outside, use the follwing command:
+	> docker cp source_folder destination_folder 
+	(ex:> docker cp PFI_Autosegmentation_project/Data/ 7b1d664921c7:container to import Data)
 
 ------------------------------------------------- WHAT IT CAN DO
 
 	1) Pre-process your dataset of manually segmented MRI (in order to train a model)
 	2) Train a model on your data
 	3) Perform auto-segmentations based on a choosen model
-	4) Apply a morphing process to segmentations
+	4) Apply a morphing process to segmentations AND propose to switch the model's parts from volume to shell-type mesh
 	5) Insert the segmented model within a generic .osim musculoskeletic model (NOT IMPLEMENTED)
 	6) Perform simulations and generate outputs (NOT IMPLEMENTED)
 
 
+
+Please feel free to contact me if you have any question on my email adress: antoine.basile753@outlook.fr
+Cheers.
+
+Femur
+Tibia
+Patella
+
+Femur_cartilage
+Tibia_lateral_cartilage
+Tibia_medial_cartilage
+Patella_cartilage
+
+Menisc_lateral_sup
+Menisc_lateral_inf
+Menisc_medial_sup
+Menisc_medial_inf
+
+So I'm facing an issue:
+
+The MPUNET Library is not CONDA-compatible and requires Python 3.7. On the other hand the opensim Library was only released on Conda

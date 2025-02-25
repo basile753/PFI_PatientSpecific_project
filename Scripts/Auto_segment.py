@@ -5,10 +5,7 @@ import sys
 global mp_path
 
 #You might need to change the path if you virtual environment is set up differently
-#On windows usually :
-#mp_path = "../.venv37/Lib/site-packages/mpunet/bin/mp.py"
-#On a linux venv :
-mp_path = "../.venv37/lib/python3.7/site-packages/mpunet/bin/mp.py"
+mp_path = "../.venv_conda/Lib/site-packages/mpunet/bin/mp.py"
 
 def predict_mpunet_3dunet(im_path: str, mod_path: str, n_gpus, model_type: str):
     """

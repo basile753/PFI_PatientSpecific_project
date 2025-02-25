@@ -13,7 +13,7 @@ from sklearn.decomposition import PCA
 from sklearn.cross_decomposition import PLSRegression
 import sys
 sys.path.append(r'D:\Antoine\TN10_uOttawa\codes\Seg_SSM\Seg_SSM\knee-model-tools')
-import utils as ut
+import utils_bis as utb
 
 
 class meshSet:
@@ -32,7 +32,7 @@ class meshSet:
         
         T_list = []
         for i in range(len(self.meshes)):
-            Z,R,b,c,_ = ut.procrustes(refmesh.points,self.meshes[i].points,scale=scale)
+            Z,R,b,c,_ = utb.procrustes(refmesh.points,self.meshes[i].points,scale=scale)
             T = np.eye(4)
             T[:3,:3] = R.T * b
             T[:3,3] = c

@@ -15,7 +15,7 @@ import sys
 
 # Add necessary paths for external libraries
 sys.path.append(r'.\knee-model-tools')
-import utils as ut
+import utils_bis as utb
 import ssm
 import buildACS
 import gbcpd
@@ -62,7 +62,7 @@ def remesh_body(mesh_dir, body_names, n_pts_ref):
         fname = f'{name}.stl'
         mesh = pv.PolyData(os.path.join(mesh_dir, fname))
         n_target = int(n_pts_ref[i])
-        remeshed_mesh = ut.ggremesh(mesh, opts={'nb_pts': n_target}, ggremesh_prog=r'geogram\win64\bin\vorpalite.exe')
+        remeshed_mesh = utb.ggremesh(mesh, opts={'nb_pts': n_target}, ggremesh_prog=r'geogram\win64\bin\vorpalite.exe')
         remeshed_mesh.save(os.path.join(mesh_dir, 'remeshed', fname))
         bodies.append(ssm.meshSet([remeshed_mesh]))
         print(f'The mesh {name} has been remeshed to {n_target} points.')
@@ -85,7 +85,7 @@ def create_femur_acs(bodies, mesh_dir):
             d_add = 1.4 * width - height
             Itop = (m.point_normals[:, 2] > 0.8) & (m.points[:, 2] > m.points[:, 2].max() - 10)
             m.points[Itop, 2] += d_add
-            m = ut.ggremesh(m, opts={'nb_pts': 10000})
+            m = utb.ggremesh(m, opts={'nb_pts': 10000})
             T = buildACS.buildfACS(m, plotACS=False)
         else:
             T = buildACS.buildfACS(m, plotACS=False)
@@ -110,7 +110,7 @@ def create_tibia_acs(bodies, mesh_dir):
             d_add = 1.1 * width - height
             Ibot = (m.point_normals[:, 2] < -0.8) & (m.points[:, 2] < m.points[:, 2].min() + 10)
             m.points[Ibot, 2] -= d_add
-            m = ut.ggremesh(m, opts={'nb_pts': 10000})
+            m = utb.ggremesh(m, opts={'nb_pts': 10000})
             I_ant = np.argmin(m.points[:, 1])
             T = buildACS.buildtACS(m, m.points[I_ant, :], plotACS=False)
         else:
@@ -165,7 +165,7 @@ def perform_cpd(meshes_aligned, ref_files, dir_ref, dir_corresp, bodynames, dir_
 def plot_cpd_results(results, body_names):
     """Plots the CPD results part by part."""
     for i, result in enumerate(results):
-        ut.plotpatch(result, opts={'opacity': [1], 'color': ['grey'], 'title': [f'Morphed {body_names[i]}']})
+        utb.plotpatch(result, opts={'opacity': [1], 'color': ['grey'], 'title': [f'Morphed {body_names[i]}']})
 
 def reflect_meshes(bodies):
     """Reflect every mesh from the list of meshes (bodies) along the X axis and also flip the normals back
@@ -192,7 +192,7 @@ if __name__ == "__main__":
     aligned_meshes = align_meshes_to_ACS(BODY_NAMES, MESH_DIR)
 
     #%% Plot aligned meshes
-    #ut.plotpatch(aligned_meshes, opts={'opacity': [0.5] * 10,
+    #utb.plotpatch(aligned_meshes, opts={'opacity': [0.5] * 10,
     #                           'color': ['blue', 'red', 'green', 'yellow', 'pink', 'purple', 'black', 'orange', 'white',
     #                                     'grey']})
 

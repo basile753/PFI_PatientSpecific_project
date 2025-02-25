@@ -1,18 +1,20 @@
 """
 This is the main script of the project, it aims to interact with the other scripts in order to pre-process the data,
 train and evaluate models.
+@author: Antoine Basile
 """
 import os
 import Data_preprocessing
 import Training
 import Auto_segment
 import Auto_morphing
+import Insertion_MSK_model
 
 def main(root: str):
     #-----Initialisation---------------------
     flag = True
-    print("\n\n\t\tWelcome in the PFI autosegmentation project script!\n\n"
-          "Here you can process your patient's MRI data to create a specific finite element model and perform simulations.\n"
+    print("\n\n\t\tWelcome in the PFI patient-specific project script!\n\n"
+          "Here you can process your patient's MRI data to create a specific finite element model and perform rigid bodies simulations.\n"
           "The present auto-segmentation models (and mean shapes for the morphing) are trained on a dataset of teenagers with ACL or PFI, \noutside of these bounds you should"
           " train your own models using this program and change the reference files for the morphing\n")
     while flag == True:
@@ -21,7 +23,7 @@ def main(root: str):
                        "\n\t2: Train and evaluate a model on your data."
                        "\n\t3: Perform auto-segmentations on MRI-DICOM based on a choosen model."
                        "\n\t4: Apply a morphing process to segmentations."
-                       "\n\t5: Insert a segmented model within a generic .osim musculoskeletic model (NOT IMPLEMENTED)."
+                       "\n\t5: Insert a segmented model within a generic .osim musculoskeletic model (IN PROGRESS)."
                        "\n\t6: Perform simulations and generate outputs (NOT IMPLEMENTED)."
                        "\n\n ---> ")
 
@@ -48,6 +50,12 @@ def main(root: str):
         #-----Auto-morphing-------
         if choice == "4":
             Auto_morphing.entry()
+            os.chdir(root)
+        # ---------------------------------------
+
+        #-----Insertion/Simulation-------
+        if choice == "5":
+            Insertion_MSK_model.entry()
             os.chdir(root)
         # ---------------------------------------
 

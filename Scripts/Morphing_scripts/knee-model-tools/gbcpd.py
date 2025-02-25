@@ -13,7 +13,6 @@ import subprocess
 import time
 import sys
 sys.path.append(r'\knee-model-tools')
-import utils as ut
 
 
 
