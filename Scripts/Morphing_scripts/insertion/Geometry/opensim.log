@@ -1,0 +1,83 @@
+[2025-03-05 13:55:00.198] [error] Object::newInstanceOfType(): object type 'Smith2018ArticularContactForce' is not a registered Object! It will be ignored.
+[2025-03-05 13:55:10.646] [info] Loaded model smith2019 from file D:\Antoine\TN10_uOttawa\codes\PFI_Autosegmentation_project\Scripts\Morphing_scripts\insertion\Geometry\PFI_smith2019.osim
+[2025-03-05 13:56:01.279] [info] Loaded model 2 from file D:\Antoine\TN10_uOttawa\codes\PFI_Autosegmentation_project\Data\RMIs\to_predict\results\2_PRED_morphed\smith2019_2_personalized.osim
+[2025-03-05 13:56:01.289] [warning] Couldn't find file 'pelvflip.vtp'.
+[2025-03-05 13:56:01.290] [warning] Couldn't find file '2-femur-bone.stl'.
+[2025-03-05 13:56:01.291] [warning] Couldn't find file '2-femur-cartilage.stl'.
+[2025-03-05 13:56:01.291] [warning] Couldn't find file '2-patella-bone.stl'.
+[2025-03-05 13:56:01.291] [warning] Couldn't find file '2-patella-cartilage.stl'.
+[2025-03-05 13:56:01.291] [warning] Couldn't find file '2-tibia-bone.stl'.
+[2025-03-05 13:56:01.291] [warning] Couldn't find file '2-tibia-cartilage.stl'.
+[2025-03-05 13:56:01.292] [warning] Couldn't find file 'smith2019-R-fibula-bone.stl'.
+[2025-03-05 13:56:01.292] [warning] Couldn't find file '2-lateral-meniscus.stl'.
+[2025-03-05 13:56:01.292] [warning] Couldn't find file '2-medial-meniscus.stl'.
+[2025-03-05 13:56:01.376] [error] Couldn't find file '2-femur-cartilage.stl'.
+[2025-03-05 13:56:01.377] [error] The following locations were tried:
+[2025-03-05 13:56:01.377] [error] d:\Antoine\TN10_uOttawa\codes\PFI_Autosegmentation_project\Data\RMIs\to_predict\results\2_PRED_morphed\2-femur-cartilage.stl
+[2025-03-05 13:56:01.377] [error] d:\Antoine\TN10_uOttawa\codes\PFI_Autosegmentation_project\Data\RMIs\to_predict\results\2_PRED_morphed\Geometry\2-femur-cartilage.stl
+[2025-03-05 13:56:01.377] [error] D:\Programmes\OpenSim 4.5\opensim\..\\Geometry\2-femur-cartilage.stl
+[2025-03-05 13:56:01.377] [error] D:\Programmes\OpenSim 4.4\opensim\..\\Geometry\2-femur-cartilage.stl
+[2025-03-05 13:56:01.377] [error] D:\Programmes\OpenSim 4.5\opensim\..\\Geometry\2-femur-cartilage.stl
+[2025-03-05 13:56:01.377] [error] D:\Programmes\OpenSim 4.5\opensim\..\\Geometry\2-femur-cartilage.stl
+[2025-03-05 13:56:01.377] [error] C:\Program Files\OpenSim\Geometry\2-femur-cartilage.stl
+[2025-03-05 13:56:22.934] [info] Loaded model 2 from file D:\Antoine\TN10_uOttawa\codes\PFI_Autosegmentation_project\Data\RMIs\to_predict\results\2_PRED_morphed\smith2019_2_personalized.osim
+[2025-03-05 13:56:22.936] [warning] Couldn't find file 'pelvflip.vtp'.
+[2025-03-05 13:56:22.936] [warning] Couldn't find file '2-femur-bone.stl'.
+[2025-03-05 13:56:22.936] [warning] Couldn't find file '2-femur-cartilage.stl'.
+[2025-03-05 13:56:22.937] [warning] Couldn't find file '2-patella-bone.stl'.
+[2025-03-05 13:56:22.937] [warning] Couldn't find file '2-patella-cartilage.stl'.
+[2025-03-05 13:56:22.937] [warning] Couldn't find file '2-tibia-bone.stl'.
+[2025-03-05 13:56:22.937] [warning] Couldn't find file '2-tibia-cartilage.stl'.
+[2025-03-05 13:56:22.938] [warning] Couldn't find file 'smith2019-R-fibula-bone.stl'.
+[2025-03-05 13:56:22.938] [warning] Couldn't find file '2-lateral-meniscus.stl'.
+[2025-03-05 13:56:22.938] [warning] Couldn't find file '2-medial-meniscus.stl'.
+[2025-03-05 13:56:22.995] [error] Couldn't find file '2-femur-cartilage.stl'.
+[2025-03-05 13:56:22.995] [error] The following locations were tried:
+[2025-03-05 13:56:22.995] [error] d:\Antoine\TN10_uOttawa\codes\PFI_Autosegmentation_project\Data\RMIs\to_predict\results\2_PRED_morphed\2-femur-cartilage.stl
+[2025-03-05 13:56:22.995] [error] d:\Antoine\TN10_uOttawa\codes\PFI_Autosegmentation_project\Data\RMIs\to_predict\results\2_PRED_morphed\Geometry\2-femur-cartilage.stl
+[2025-03-05 13:56:22.995] [error] D:\Programmes\OpenSim 4.5\opensim\..\\Geometry\2-femur-cartilage.stl
+[2025-03-05 13:56:22.995] [error] D:\Programmes\OpenSim 4.4\opensim\..\\Geometry\2-femur-cartilage.stl
+[2025-03-05 13:56:22.996] [error] D:\Programmes\OpenSim 4.5\opensim\..\\Geometry\2-femur-cartilage.stl
+[2025-03-05 13:56:22.996] [error] D:\Programmes\OpenSim 4.5\opensim\..\\Geometry\2-femur-cartilage.stl
+[2025-03-05 13:56:22.996] [error] C:\Program Files\OpenSim\Geometry\2-femur-cartilage.stl
+[2025-03-05 13:56:34.952] [info] Loaded model smith2019 from file D:\Antoine\TN10_uOttawa\codes\PFI_Autosegmentation_project\Scripts\Morphing_scripts\insertion\Geometry\PFI_smith2019.osim
+[2025-03-05 13:57:05.998] [info] Loaded model 2 from file D:\Antoine\TN10_uOttawa\codes\PFI_Autosegmentation_project\Data\RMIs\to_predict\results\2_PRED_morphed\smith2019_2_personalized.osim
+[2025-03-05 13:57:05.999] [warning] Couldn't find file 'pelvflip.vtp'.
+[2025-03-05 13:57:05.999] [warning] Couldn't find file '2-femur-bone.stl'.
+[2025-03-05 13:57:06.000] [warning] Couldn't find file '2-femur-cartilage.stl'.
+[2025-03-05 13:57:06.000] [warning] Couldn't find file '2-patella-bone.stl'.
+[2025-03-05 13:57:06.000] [warning] Couldn't find file '2-patella-cartilage.stl'.
+[2025-03-05 13:57:06.000] [warning] Couldn't find file '2-tibia-bone.stl'.
+[2025-03-05 13:57:06.000] [warning] Couldn't find file '2-tibia-cartilage.stl'.
+[2025-03-05 13:57:06.000] [warning] Couldn't find file 'smith2019-R-fibula-bone.stl'.
+[2025-03-05 13:57:06.001] [warning] Couldn't find file '2-lateral-meniscus.stl'.
+[2025-03-05 13:57:06.001] [warning] Couldn't find file '2-medial-meniscus.stl'.
+[2025-03-05 13:57:06.056] [error] Couldn't find file '2-femur-cartilage.stl'.
+[2025-03-05 13:57:06.056] [error] The following locations were tried:
+[2025-03-05 13:57:06.056] [error] d:\Antoine\TN10_uOttawa\codes\PFI_Autosegmentation_project\Data\RMIs\to_predict\results\2_PRED_morphed\2-femur-cartilage.stl
+[2025-03-05 13:57:06.056] [error] d:\Antoine\TN10_uOttawa\codes\PFI_Autosegmentation_project\Data\RMIs\to_predict\results\2_PRED_morphed\Geometry\2-femur-cartilage.stl
+[2025-03-05 13:57:06.056] [error] D:\Programmes\OpenSim 4.5\opensim\..\\Geometry\2-femur-cartilage.stl
+[2025-03-05 13:57:06.056] [error] D:\Programmes\OpenSim 4.4\opensim\..\\Geometry\2-femur-cartilage.stl
+[2025-03-05 13:57:06.056] [error] D:\Programmes\OpenSim 4.5\opensim\..\\Geometry\2-femur-cartilage.stl
+[2025-03-05 13:57:06.056] [error] D:\Programmes\OpenSim 4.5\opensim\..\\Geometry\2-femur-cartilage.stl
+[2025-03-05 13:57:06.056] [error] C:\Program Files\OpenSim\Geometry\2-femur-cartilage.stl
+[2025-03-05 14:30:28.368] [info] Loaded model 2 from file D:\Antoine\TN10_uOttawa\codes\PFI_Autosegmentation_project\Data\RMIs\to_predict\results\2_PRED_morphed\smith2019_2_personalized.osim
+[2025-03-05 14:30:28.369] [warning] Couldn't find file 'pelvflip.vtp'.
+[2025-03-05 14:30:28.370] [warning] Couldn't find file '2-femur-bone.stl'.
+[2025-03-05 14:30:28.370] [warning] Couldn't find file '2-femur-cartilage.stl'.
+[2025-03-05 14:30:28.370] [warning] Couldn't find file '2-patella-bone.stl'.
+[2025-03-05 14:30:28.370] [warning] Couldn't find file '2-patella-cartilage.stl'.
+[2025-03-05 14:30:28.370] [warning] Couldn't find file '2-tibia-bone.stl'.
+[2025-03-05 14:30:28.370] [warning] Couldn't find file '2-tibia-cartilage.stl'.
+[2025-03-05 14:30:28.370] [warning] Couldn't find file 'smith2019-R-fibula-bone.stl'.
+[2025-03-05 14:30:28.370] [warning] Couldn't find file '2-lateral-meniscus.stl'.
+[2025-03-05 14:30:28.370] [warning] Couldn't find file '2-medial-meniscus.stl'.
+[2025-03-05 14:30:28.406] [error] Couldn't find file '2-femur-cartilage.stl'.
+[2025-03-05 14:30:28.406] [error] The following locations were tried:
+[2025-03-05 14:30:28.406] [error] d:\Antoine\TN10_uOttawa\codes\PFI_Autosegmentation_project\Data\RMIs\to_predict\results\2_PRED_morphed\2-femur-cartilage.stl
+[2025-03-05 14:30:28.406] [error] d:\Antoine\TN10_uOttawa\codes\PFI_Autosegmentation_project\Data\RMIs\to_predict\results\2_PRED_morphed\Geometry\2-femur-cartilage.stl
+[2025-03-05 14:30:28.406] [error] D:\Programmes\OpenSim 4.5\opensim\..\\Geometry\2-femur-cartilage.stl
+[2025-03-05 14:30:28.406] [error] D:\Programmes\OpenSim 4.4\opensim\..\\Geometry\2-femur-cartilage.stl
+[2025-03-05 14:30:28.406] [error] D:\Programmes\OpenSim 4.5\opensim\..\\Geometry\2-femur-cartilage.stl
+[2025-03-05 14:30:28.406] [error] D:\Programmes\OpenSim 4.5\opensim\..\\Geometry\2-femur-cartilage.stl
+[2025-03-05 14:30:28.406] [error] C:\Program Files\OpenSim\Geometry\2-femur-cartilage.stl

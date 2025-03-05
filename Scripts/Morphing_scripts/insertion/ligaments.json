@@ -1,0 +1,2337 @@
+[
+  {
+    "name": "MCLd1",
+    "pts": [
+      [
+        -0.0017455,
+        -0.00045737,
+        -0.037269
+      ],
+      [
+        -0.00021515,
+        -0.031853,
+        -0.031379
+      ]
+    ],
+    "segment": [
+      "femur_distal_r",
+      "tibia_proximal_r"
+    ],
+    "ReferenceStrain": 0.04,
+    "node": [
+      155,
+      11
+    ],
+    "shift": [
+    ]
+  },
+  {
+    "name": "MCLd2",
+    "pts": [
+      [
+        0.0028899,
+        -0.0006742,
+        -0.038035
+      ],
+      [
+        0.0049463,
+        -0.031262,
+        -0.031379
+      ]
+    ],
+    "segment": [
+      "femur_distal_r",
+      "tibia_proximal_r"
+    ],
+    "ReferenceStrain": -0.04,
+    "node": [
+      81,
+      13
+    ],
+    "shift": [
+    ]
+  },
+  {
+    "name": "MCLd3",
+    "pts": [
+      [
+        0.0038775,
+        0.0036824,
+        -0.039033
+      ],
+      [
+        0.0054198,
+        -0.032627,
+        -0.031467
+      ]
+    ],
+    "segment": [
+      "femur_distal_r",
+      "tibia_proximal_r"
+    ],
+    "ReferenceStrain": 0,
+    "node": [
+      108,
+      28
+    ],
+    "shift": [
+    ]
+  },
+  {
+    "name": "MCLd4",
+    "pts": [
+      [
+        0.00096177,
+        0.0014429,
+        -0.038236
+      ],
+      [
+        0.0026082,
+        -0.032414,
+        -0.031427
+      ]
+    ],
+    "segment": [
+      "femur_distal_r",
+      "tibia_proximal_r"
+    ],
+    "ReferenceStrain": 0.04,
+    "node": [
+      102,
+      18
+    ],
+    "shift": [
+    ]
+  },
+  {
+    "name": "MCLd5",
+    "pts": [
+      [
+        -0.0010825,
+        0.0046882,
+        -0.038669
+      ],
+      [
+        -9.2907E-5,
+        -0.033387,
+        -0.031424
+      ]
+    ],
+    "segment": [
+      "femur_distal_r",
+      "tibia_proximal_r"
+    ],
+    "ReferenceStrain": 0.04,
+    "node": [
+      33,
+      32
+    ],
+    "shift": [
+    ]
+  },
+  {
+    "name": "MCLs1",
+    "pts": [
+      [
+        0.0053709,
+        0.0083394,
+        -0.04065
+      ],
+      [
+        0.014323,
+        -0.061131,
+        -0.015466
+      ]
+    ],
+    "segment": [
+      "femur_distal_r",
+      "tibia_proximal_r"
+    ],
+    "ReferenceStrain": 0.04,
+    "node": [
+      58,
+      1136
+    ],
+    "shift": [
+    ]
+  },
+  {
+    "name": "MCLs2",
+    "pts": [
+      [
+        0.0056326,
+        0.015275,
+        -0.040595
+      ],
+      [
+        0.019234,
+        -0.071438,
+        -0.010942
+      ]
+    ],
+    "segment": [
+      "femur_distal_r",
+      "tibia_proximal_r"
+    ],
+    "ReferenceStrain": 0.04,
+    "node": [
+      10,
+      1810
+    ],
+    "shift": [
+    ]
+  },
+  {
+    "name": "MCLs3",
+    "pts": [
+      [
+        -0.00040512,
+        0.016541,
+        -0.038878
+      ],
+      [
+        0.0011834,
+        -0.05547,
+        -0.021542
+      ]
+    ],
+    "segment": [
+      "femur_distal_r",
+      "tibia_proximal_r"
+    ],
+    "ReferenceStrain": 0.05,
+    "node": [
+      52,
+      627
+    ],
+    "shift": [
+    ]
+  },
+  {
+    "name": "MCLs4",
+    "pts": [
+      [
+        -0.0011507,
+        0.0080931,
+        -0.039482
+      ],
+      [
+        0.0065168,
+        -0.074829,
+        -0.017341
+      ]
+    ],
+    "segment": [
+      "femur_distal_r",
+      "tibia_proximal_r"
+    ],
+    "ReferenceStrain": 0.05,
+    "node": [
+      14,
+      1029
+    ],
+    "shift": [
+    ]
+  },
+  {
+    "name": "MCLs5",
+    "pts": [
+      [
+        0.0025007,
+        0.011534,
+        -0.040624
+      ],
+      [
+        0.011919,
+        -0.065762,
+        -0.016444
+      ]
+    ],
+    "segment": [
+      "femur_distal_r",
+      "tibia_proximal_r"
+    ],
+    "ReferenceStrain": 0.05,
+    "node": [
+      2,
+      1096
+    ],
+    "shift": [
+    ]
+  },
+  {
+    "name": "MCLs6",
+    "pts": [
+      [
+        0.00092052,
+        0.013423,
+        -0.040266
+      ],
+      [
+        0.0071679,
+        -0.06075,
+        -0.019481
+      ]
+    ],
+    "segment": [
+      "femur_distal_r",
+      "tibia_proximal_r"
+    ],
+    "ReferenceStrain": 0.05,
+    "node": [
+      11,
+      770
+    ],
+    "shift": [
+    ]
+  },
+  {
+    "name": "ACLpl1",
+    "pts": [
+      [
+        -0.0038361,
+        -3.0877E-5,
+        0.0070808
+      ],
+      [
+        0.010136,
+        -0.020482,
+        -0.00036186
+      ]
+    ],
+    "segment": [
+      "femur_distal_r",
+      "tibia_proximal_r"
+    ],
+    "ReferenceStrain": 0.03,
+    "node": [
+      3880,
+      2337
+    ],
+    "shift": [
+    ]
+  },
+  {
+    "name": "ACLpl2",
+    "pts": [
+      [
+        -0.0038641,
+        -0.0030479,
+        0.0072371
+      ],
+      [
+        0.010071,
+        -0.021322,
+        0.0039158
+      ]
+    ],
+    "segment": [
+      "femur_distal_r",
+      "tibia_proximal_r"
+    ],
+    "ReferenceStrain": 0.01,
+    "node": [
+      3912,
+      2707
+    ],
+    "shift": [
+    ]
+  },
+  {
+    "name": "ACLpl3",
+    "pts": [
+      [
+        -0.0012585,
+        -0.00061438,
+        0.005778
+      ],
+      [
+        0.014123,
+        -0.021793,
+        0.0014326
+      ]
+    ],
+    "segment": [
+      "femur_distal_r",
+      "tibia_proximal_r"
+    ],
+    "ReferenceStrain": -0.05,
+    "node": [
+      3763,
+      2506
+    ],
+    "shift": [
+    ]
+  },
+  {
+    "name": "ACLpl4",
+    "pts": [
+      [
+        -0.00049734,
+        -0.0048442,
+        0.0061921
+      ],
+      [
+        0.014311,
+        -0.021465,
+        0.0048355
+      ]
+    ],
+    "segment": [
+      "femur_distal_r",
+      "tibia_proximal_r"
+    ],
+    "ReferenceStrain": -0.12,
+    "node": [
+      3821,
+      2745
+    ],
+    "shift": [
+    ]
+  },
+  {
+    "name": "ACLpl5",
+    "pts": [
+      [
+        -0.0015255,
+        -0.0021886,
+        0.0062745
+      ],
+      [
+        0.012201,
+        -0.021304,
+        0.0017124
+      ]
+    ],
+    "segment": [
+      "femur_distal_r",
+      "tibia_proximal_r"
+    ],
+    "ReferenceStrain": -0.02,
+    "node": [
+      3809,
+      2598
+    ],
+    "shift": [
+    ]
+  },
+  {
+    "name": "ACLpl6",
+    "pts": [
+      [
+        -0.0027392,
+        -0.0031662,
+        0.0068024
+      ],
+      [
+        0.012531,
+        -0.021976,
+        0.0043276
+      ]
+    ],
+    "segment": [
+      "femur_distal_r",
+      "tibia_proximal_r"
+    ],
+    "ReferenceStrain": -0.03,
+    "node": [
+      3871,
+      2835
+    ],
+    "shift": [
+    ]
+  },
+  {
+    "name": "ACLam1",
+    "pts": [
+      [
+        0.0011685,
+        0.0031897,
+        0.002616
+      ],
+      [
+        0.016437,
+        -0.020666,
+        -0.0052185
+      ]
+    ],
+    "segment": [
+      "femur_distal_r",
+      "tibia_proximal_r"
+    ],
+    "ReferenceStrain": -0.14,
+    "node": [
+      3539,
+      1956
+    ],
+    "shift": [
+    ]
+  },
+  {
+    "name": "ACLam2",
+    "pts": [
+      [
+        -0.0011691,
+        0.0010628,
+        0.0052107
+      ],
+      [
+        0.014972,
+        -0.021642,
+        -0.00057088
+      ]
+    ],
+    "segment": [
+      "femur_distal_r",
+      "tibia_proximal_r"
+    ],
+    "ReferenceStrain": -0.05,
+    "node": [
+      3735,
+      2259
+    ],
+    "shift": [
+    ]
+  },
+  {
+    "name": "ACLam3",
+    "pts": [
+      [
+        -0.0009364,
+        0.0036972,
+        0.0041682
+      ],
+      [
+        0.011939,
+        -0.019622,
+        -0.0038468
+      ]
+    ],
+    "segment": [
+      "femur_distal_r",
+      "tibia_proximal_r"
+    ],
+    "ReferenceStrain": -0.08,
+    "node": [
+      3611,
+      2053
+    ],
+    "shift": [
+    ]
+  },
+  {
+    "name": "ACLam4",
+    "pts": [
+      [
+        0.00084902,
+        0.0010256,
+        0.0040526
+      ],
+      [
+        0.018517,
+        -0.022158,
+        -0.001854
+      ]
+    ],
+    "segment": [
+      "femur_distal_r",
+      "tibia_proximal_r"
+    ],
+    "ReferenceStrain": -0.14,
+    "node": [
+      3661,
+      2244
+    ],
+    "shift": [
+    ]
+  },
+  {
+    "name": "ACLam5",
+    "pts": [
+      [
+        0.00056465,
+        0.0025467,
+        0.003565
+      ],
+      [
+        0.016132,
+        -0.02093,
+        -0.0036845
+      ]
+    ],
+    "segment": [
+      "femur_distal_r",
+      "tibia_proximal_r"
+    ],
+    "ReferenceStrain": -0.14,
+    "node": [
+      3539,
+      1956
+    ],
+    "shift": [
+    ]
+  },
+  {
+    "name": "ACLam6",
+    "pts": [
+      [
+        -0.00057334,
+        0.0017233,
+        0.0046087
+      ],
+      [
+        0.016387,
+        -0.02174,
+        -0.0013455
+      ]
+    ],
+    "segment": [
+      "femur_distal_r",
+      "tibia_proximal_r"
+    ],
+    "ReferenceStrain": -0.12,
+    "node": [
+      3646,
+      2259
+    ],
+    "shift": [
+    ]
+  },
+  {
+    "name": "PCLal1",
+    "pts": [
+      [
+        0.0010633,
+        -0.0026457,
+        -0.010709
+      ],
+      [
+        -0.014049,
+        -0.03139,
+        0.0029368
+      ]
+    ],
+    "segment": [
+      "femur_distal_r",
+      "tibia_proximal_r"
+    ],
+    "ReferenceStrain": 0.03,
+    "node": [
+      2173,
+      2929
+    ],
+    "shift": [
+    ]
+  },
+  {
+    "name": "PCLal2",
+    "pts": [
+      [
+        0.0071112,
+        -0.00473,
+        -0.0046475
+      ],
+      [
+        -0.010099,
+        -0.02566,
+        0.00288
+      ]
+    ],
+    "segment": [
+      "femur_distal_r",
+      "tibia_proximal_r"
+    ],
+    "ReferenceStrain": -0.1,
+    "node": [
+      2890,
+      2856
+    ],
+    "shift": [
+    ]
+  },
+  {
+    "name": "PCLal3",
+    "pts": [
+      [
+        0.0046634,
+        -0.00088757,
+        -0.0070401
+      ],
+      [
+        -0.012055,
+        -0.028137,
+        0.0030545
+      ]
+    ],
+    "segment": [
+      "femur_distal_r",
+      "tibia_proximal_r"
+    ],
+    "ReferenceStrain": 0.03,
+    "node": [
+      2629,
+      2999
+    ],
+    "shift": [
+    ]
+  },
+  {
+    "name": "PCLal4",
+    "pts": [
+      [
+        0.0048125,
+        -0.0045282,
+        -0.00815
+      ],
+      [
+        -0.012695,
+        -0.030786,
+        -0.0022615
+      ]
+    ],
+    "segment": [
+      "femur_distal_r",
+      "tibia_proximal_r"
+    ],
+    "ReferenceStrain": -0.04,
+    "node": [
+      2515,
+      2285
+    ],
+    "shift": [
+    ]
+  },
+  {
+    "name": "PCLal5",
+    "pts": [
+      [
+        0.0050176,
+        -0.0034313,
+        -0.0075544
+      ],
+      [
+        -0.01241,
+        -0.029808,
+        0.00089554
+      ]
+    ],
+    "segment": [
+      "femur_distal_r",
+      "tibia_proximal_r"
+    ],
+    "ReferenceStrain": -0.02,
+    "node": [
+      2515,
+      2666
+    ],
+    "shift": [
+    ]
+  },
+  {
+    "name": "PCLpm1",
+    "pts": [
+      [
+        0.0045535,
+        -0.0054955,
+        -0.0090256
+      ],
+      [
+        -0.013917,
+        -0.031775,
+        -0.0033347
+      ]
+    ],
+    "segment": [
+      "femur_distal_r",
+      "tibia_proximal_r"
+    ],
+    "ReferenceStrain": -0.05,
+    "node": [
+      2379,
+      2238
+    ],
+    "shift": [
+    ]
+  },
+  {
+    "name": "PCLpm2",
+    "pts": [
+      [
+        0.0022125,
+        -0.008266,
+        -0.010651
+      ],
+      [
+        -0.017052,
+        -0.032778,
+        -0.0065962
+      ]
+    ],
+    "segment": [
+      "femur_distal_r",
+      "tibia_proximal_r"
+    ],
+    "ReferenceStrain": -0.12,
+    "node": [
+      2185,
+      1992
+    ],
+    "shift": [
+    ]
+  },
+  {
+    "name": "PCLpm3",
+    "pts": [
+      [
+        0.0018148,
+        -0.0061646,
+        -0.010734
+      ],
+      [
+        -0.013228,
+        -0.029616,
+        -0.0066956
+      ]
+    ],
+    "segment": [
+      "femur_distal_r",
+      "tibia_proximal_r"
+    ],
+    "ReferenceStrain": -0.08,
+    "node": [
+      2153,
+      2022
+    ],
+    "shift": [
+    ]
+  },
+  {
+    "name": "PCLpm4",
+    "pts": [
+      [
+        0.0065082,
+        -0.0078452,
+        -0.0080514
+      ],
+      [
+        -0.016262,
+        -0.033443,
+        -0.0014326
+      ]
+    ],
+    "segment": [
+      "femur_distal_r",
+      "tibia_proximal_r"
+    ],
+    "ReferenceStrain": -0.12,
+    "node": [
+      2504,
+      2423
+    ],
+    "shift": [
+    ]
+  },
+  {
+    "name": "PCLpm5",
+    "pts": [
+      [
+        0.0048766,
+        -0.0078242,
+        -0.0097349
+      ],
+      [
+        -0.014784,
+        -0.032047,
+        -0.0047864
+      ]
+    ],
+    "segment": [
+      "femur_distal_r",
+      "tibia_proximal_r"
+    ],
+    "ReferenceStrain": -0.1,
+    "node": [
+      2279,
+      2220
+    ],
+    "shift": [
+    ]
+  },
+  {
+    "name": "LCL1",
+    "pts": [
+      [
+        -0.0021714,
+        0.0020776,
+        0.035465
+      ],
+      [
+        -0.013217,
+        -0.048269,
+        0.043157
+      ]
+    ],
+    "segment": [
+      "femur_distal_r",
+      "tibia_proximal_r"
+    ],
+    "ReferenceStrain": 0.06,
+    "node": [
+      7216,
+      5447
+    ],
+    "shift": [
+      [
+        0,
+        0,
+        0
+      ],
+      [
+        -0.22470938949745112,
+        0,
+        0.16498124739547157
+      ]
+    ]
+  },
+  {
+    "name": "LCL2",
+    "pts": [
+      [
+        -0.0021909,
+        0.006045,
+        0.035642
+      ],
+      [
+        -0.014842,
+        -0.050771,
+        0.045564
+      ]
+    ],
+    "segment": [
+      "femur_distal_r",
+      "tibia_proximal_r"
+    ],
+    "ReferenceStrain": 0.06,
+    "node": [
+      7234,
+      5173
+    ],
+    "shift": [
+      [
+        0,
+        0,
+        0
+      ],
+      [
+        -0.25586071863258719,
+        0,
+        0.25878594249201281
+      ]
+    ]
+  },
+  {
+    "name": "LCL3",
+    "pts": [
+      [
+        -0.000376,
+        0.0039832,
+        0.036523
+      ],
+      [
+        -0.011881,
+        -0.050605,
+        0.045433
+      ]
+    ],
+    "segment": [
+      "femur_distal_r",
+      "tibia_proximal_r"
+    ],
+    "ReferenceStrain": 0.06,
+    "node": [
+      7271,
+      5347
+    ],
+    "shift": [
+      [
+        0,
+        0,
+        0
+      ],
+      [
+        -0.2524210192093983,
+        0,
+        0.22048895679955552
+      ]
+    ]
+  },
+  {
+    "name": "LCL4",
+    "pts": [
+      [
+        -3.0505E-5,
+        0.0065622,
+        0.036488
+      ],
+      [
+        -0.011705,
+        -0.053176,
+        0.0463
+      ]
+    ],
+    "segment": [
+      "femur_distal_r",
+      "tibia_proximal_r"
+    ],
+    "ReferenceStrain": 0.06,
+    "node": [
+      7261,
+      5066
+    ],
+    "shift": [
+      [
+        0,
+        0,
+        0
+      ],
+      [
+        -0.22437423929724296,
+        0,
+        0.29444367273232397
+      ]
+    ]
+  },
+  {
+    "name": "PT1",
+    "pts": [
+      [
+        0.0023888,
+        0.007814,
+        0.01486
+      ],
+      [
+        0.032815,
+        -0.046612,
+        0.01998
+      ]
+    ],
+    "segment": [
+      "patella_r",
+      "tibia_proximal_r"
+    ],
+    "ReferenceStrain": 0.02,
+    "node": [
+      1297,
+      4405
+    ],
+    "shift": [
+    ]
+  },
+  {
+    "name": "PT2",
+    "pts": [
+      [
+        0.0034486,
+        0.0058863,
+        -0.011925
+      ],
+      [
+        0.033646,
+        -0.049788,
+        0.0046861
+      ]
+    ],
+    "segment": [
+      "patella_r",
+      "tibia_proximal_r"
+    ],
+    "ReferenceStrain": 0.02,
+    "node": [
+      360,
+      2845
+    ],
+    "shift": [
+    ]
+  },
+  {
+    "name": "PT3",
+    "pts": [
+      [
+        0.0061702,
+        0.0086539,
+        0.0034073
+      ],
+      [
+        0.037044,
+        -0.050068,
+        0.014577
+      ]
+    ],
+    "segment": [
+      "patella_r",
+      "tibia_proximal_r"
+    ],
+    "ReferenceStrain": 0,
+    "node": [
+      906,
+      3780
+    ],
+    "shift": [
+    ]
+  },
+  {
+    "name": "PT4",
+    "pts": [
+      [
+        0.0028259,
+        0.00096779,
+        0.0032342
+      ],
+      [
+        0.034705,
+        -0.046151,
+        0.013008
+      ]
+    ],
+    "segment": [
+      "patella_r",
+      "tibia_proximal_r"
+    ],
+    "ReferenceStrain": 0.01,
+    "node": [
+      937,
+      3560
+    ],
+    "shift": [
+    ]
+  },
+  {
+    "name": "PT5",
+    "pts": [
+      [
+        0.0032667,
+        0.0048953,
+        0.010452
+      ],
+      [
+        0.035086,
+        -0.048114,
+        0.017907
+      ]
+    ],
+    "segment": [
+      "patella_r",
+      "tibia_proximal_r"
+    ],
+    "ReferenceStrain": 0,
+    "node": [
+      1159,
+      4209
+    ],
+    "shift": [
+    ]
+  },
+  {
+    "name": "PT6",
+    "pts": [
+      [
+        0.0058293,
+        0.0046879,
+        -0.0037896
+      ],
+      [
+        0.035954,
+        -0.048374,
+        0.0099597
+      ]
+    ],
+    "segment": [
+      "patella_r",
+      "tibia_proximal_r"
+    ],
+    "ReferenceStrain": 0.02,
+    "node": [
+      650,
+      3495
+    ],
+    "shift": [
+    ]
+  },
+  {
+    "name": "lPFL1",
+    "pts": [
+      [
+        0.02,
+        0.01,
+        0.035456
+      ],
+      [
+        -0.0015501,
+        0.028211,
+        0.018582
+      ]
+    ],
+    "segment": [
+      "femur_distal_r",
+      "patella_r"
+    ],
+    "ReferenceStrain": 0.01,
+    "node": [
+      7080,
+      1438
+    ],
+    "shift": [
+    ]
+  },
+  {
+    "name": "lPFL2",
+    "pts": [
+      [
+        0.023,
+        0.0005,
+        0.0344
+      ],
+      [
+        -0.00011041,
+        0.0087191,
+        0.017223
+      ]
+    ],
+    "segment": [
+      "femur_distal_r",
+      "patella_r"
+    ],
+    "ReferenceStrain": -0.1,
+    "node": [
+      6950,
+      1374
+    ],
+    "shift": [
+    ]
+  },
+  {
+    "name": "lPFL3",
+    "pts": [
+      [
+        0.017602,
+        0.0055075,
+        0.036008
+      ],
+      [
+        -0.0030893,
+        0.019846,
+        0.021373
+      ]
+    ],
+    "segment": [
+      "femur_distal_r",
+      "patella_r"
+    ],
+    "ReferenceStrain": 0.01,
+    "node": [
+      7148,
+      1497
+    ],
+    "shift": [
+    ]
+  },
+  {
+    "name": "lPFL4",
+    "pts": [
+      [
+        0.025,
+        0.0070288,
+        0.033883
+      ],
+      [
+        0.00092173,
+        0.021398,
+        0.021066
+      ]
+    ],
+    "segment": [
+      "femur_distal_r",
+      "patella_r"
+    ],
+    "ReferenceStrain": -0.12,
+    "node": [
+      6970,
+      1469
+    ],
+    "shift": [
+    ]
+  },
+  {
+    "name": "lPFL5",
+    "pts": [
+      [
+        0.019,
+        0.008,
+        0.035591
+      ],
+      [
+        -0.0025654,
+        0.023461,
+        0.021187
+      ]
+    ],
+    "segment": [
+      "femur_distal_r",
+      "patella_r"
+    ],
+    "ReferenceStrain": 0.01,
+    "node": [
+      7106,
+      1507
+    ],
+    "shift": [
+    ]
+  },
+  {
+    "name": "lPFL6",
+    "pts": [
+      [
+        0.019,
+        0.003,
+        0.035537
+      ],
+      [
+        -0.0024546,
+        0.012733,
+        0.020621
+      ]
+    ],
+    "segment": [
+      "femur_distal_r",
+      "patella_r"
+    ],
+    "ReferenceStrain": 0.01,
+    "node": [
+      7097,
+      1449
+    ],
+    "shift": [
+    ]
+  },
+  {
+    "name": "lPFL7",
+    "pts": [
+      [
+        0.023,
+        0.0095,
+        0.034
+      ],
+      [
+        -0.00087067,
+        0.025299,
+        0.020645
+      ]
+    ],
+    "segment": [
+      "femur_distal_r",
+      "patella_r"
+    ],
+    "ReferenceStrain": -0.08,
+    "node": [
+      7033,
+      1481
+    ],
+    "shift": [
+    ]
+  },
+  {
+    "name": "lPFL8",
+    "pts": [
+      [
+        0.0235,
+        0.0042486,
+        0.035
+      ],
+      [
+        -5.8994E-5,
+        0.016584,
+        0.021541
+      ]
+    ],
+    "segment": [
+      "femur_distal_r",
+      "patella_r"
+    ],
+    "ReferenceStrain": -0.08,
+    "node": [
+      6982,
+      1483
+    ],
+    "shift": [
+    ]
+  },
+  {
+    "name": "mPFL1",
+    "pts": [
+      [
+        0.01482,
+        0.014851,
+        -0.037847
+      ],
+      [
+        0.00022401,
+        0.02516,
+        -0.018839
+      ]
+    ],
+    "segment": [
+      "femur_distal_r",
+      "patella_r"
+    ],
+    "ReferenceStrain": -0.05,
+    "node": [
+      172,
+      50
+    ],
+    "shift": [
+    ]
+  },
+  {
+    "name": "mPFL2",
+    "pts": [
+      [
+        0.014175,
+        0.0056463,
+        -0.039555
+      ],
+      [
+        0.00109,
+        0.0077172,
+        -0.016379
+      ]
+    ],
+    "segment": [
+      "femur_distal_r",
+      "patella_r"
+    ],
+    "ReferenceStrain": 0.01,
+    "node": [
+      114,
+      167
+    ],
+    "shift": [
+    ]
+  },
+  {
+    "name": "mPFL3",
+    "pts": [
+      [
+        0.011384,
+        0.010327,
+        -0.040161
+      ],
+      [
+        0.00031179,
+        0.016288,
+        -0.020734
+      ]
+    ],
+    "segment": [
+      "femur_distal_r",
+      "patella_r"
+    ],
+    "ReferenceStrain": 0.01,
+    "node": [
+      89,
+      25
+    ],
+    "shift": [
+    ]
+  },
+  {
+    "name": "mPFL4",
+    "pts": [
+      [
+        0.018919,
+        0.010476,
+        -0.036686
+      ],
+      [
+        0.0032401,
+        0.017339,
+        -0.020656
+      ]
+    ],
+    "segment": [
+      "femur_distal_r",
+      "patella_r"
+    ],
+    "ReferenceStrain": -0.06,
+    "node": [
+      205,
+      19
+    ],
+    "shift": [
+    ]
+  },
+  {
+    "name": "mPFL5",
+    "pts": [
+      [
+        0.015379,
+        0.012476,
+        -0.038367
+      ],
+      [
+        0.00088381,
+        0.020178,
+        -0.020659
+      ]
+    ],
+    "segment": [
+      "femur_distal_r",
+      "patella_r"
+    ],
+    "ReferenceStrain": -0.03,
+    "node": [
+      131,
+      8
+    ],
+    "shift": [
+    ]
+  },
+  {
+    "name": "mPFL6",
+    "pts": [
+      [
+        0.014485,
+        0.0085394,
+        -0.039286
+      ],
+      [
+        0.0016164,
+        0.01286,
+        -0.02005
+      ]
+    ],
+    "segment": [
+      "femur_distal_r",
+      "patella_r"
+    ],
+    "ReferenceStrain": 0.01,
+    "node": [
+      124,
+      52
+    ],
+    "shift": [
+    ]
+  },
+  {
+    "name": "MCLp1",
+    "pts": [
+      [
+        -0.0080573,
+        -0.0071292,
+        -0.034763
+      ],
+      [
+        -0.01695,
+        -0.034752,
+        -0.024723
+      ]
+    ],
+    "segment": [
+      "femur_distal_r",
+      "tibia_proximal_r"
+    ],
+    "ReferenceStrain": 0.05,
+    "node": [
+      313,
+      285
+    ],
+    "shift": [
+    ]
+  },
+  {
+    "name": "MCLp2",
+    "pts": [
+      [
+        -0.0055986,
+        -0.0063413,
+        -0.03542
+      ],
+      [
+        -0.0154,
+        -0.034926,
+        -0.02684
+      ]
+    ],
+    "segment": [
+      "femur_distal_r",
+      "tibia_proximal_r"
+    ],
+    "ReferenceStrain": 0.05,
+    "node": [
+      304,
+      164
+    ],
+    "shift": [
+    ]
+  },
+  {
+    "name": "MCLp3",
+    "pts": [
+      [
+        -0.0072934,
+        -0.0097238,
+        -0.034157
+      ],
+      [
+        -0.015144,
+        -0.037335,
+        -0.024747
+      ]
+    ],
+    "segment": [
+      "femur_distal_r",
+      "tibia_proximal_r"
+    ],
+    "ReferenceStrain": 0.02,
+    "node": [
+      331,
+      329
+    ],
+    "shift": [
+    ]
+  },
+  {
+    "name": "MCLp4",
+    "pts": [
+      [
+        -0.0046077,
+        -0.0095908,
+        -0.034789
+      ],
+      [
+        -0.01293,
+        -0.037191,
+        -0.02677
+      ]
+    ],
+    "segment": [
+      "femur_distal_r",
+      "tibia_proximal_r"
+    ],
+    "ReferenceStrain": -0.02,
+    "node": [
+      336,
+      239
+    ],
+    "shift": [
+    ]
+  },
+  {
+    "name": "MCLp5",
+    "pts": [
+      [
+        -0.0063085,
+        -0.0083706,
+        -0.034788
+      ],
+      [
+        -0.015199,
+        -0.03615,
+        -0.025692
+      ]
+    ],
+    "segment": [
+      "femur_distal_r",
+      "tibia_proximal_r"
+    ],
+    "ReferenceStrain": 0.05,
+    "node": [
+      321,
+      259
+    ],
+    "shift": [
+    ]
+  },
+  {
+    "name": "PFL1",
+    "pts": [
+      [
+        -0.0017516,
+        -0.0011259,
+        0.034832
+      ],
+      [
+        -0.023707,
+        -0.039486,
+        0.036077
+      ]
+    ],
+    "segment": [
+      "femur_distal_r",
+      "tibia_proximal_r"
+    ],
+    "ReferenceStrain": 0.01,
+    "node": [
+      7128,
+      5647
+    ],
+    "shift": [
+      [
+        0,
+        0,
+        0
+      ],
+      [
+        -0.15369282602176709,
+        0,
+        0.025503542158633107
+      ]
+    ]
+  },
+  {
+    "name": "PFL2",
+    "pts": [
+      [
+        -0.0009411,
+        -0.0064366,
+        0.033945
+      ],
+      [
+        -0.021428,
+        -0.039528,
+        0.034615
+      ]
+    ],
+    "segment": [
+      "femur_distal_r",
+      "tibia_proximal_r"
+    ],
+    "ReferenceStrain": -0.12,
+    "node": [
+      6954,
+      5647
+    ],
+    "shift": [
+      [
+        0,
+        0,
+        0
+      ],
+      [
+        -0.11349244148101108,
+        0,
+        0.0051951659952771123
+      ]
+    ]
+  },
+  {
+    "name": "PFL3",
+    "pts": [
+      [
+        0.00435,
+        -0.0027203,
+        0.036774
+      ],
+      [
+        -0.023292,
+        -0.041485,
+        0.038865
+      ]
+    ],
+    "segment": [
+      "femur_distal_r",
+      "tibia_proximal_r"
+    ],
+    "ReferenceStrain": -0.03,
+    "node": [
+      7264,
+      5624
+    ],
+    "shift": [
+      [
+        0,
+        0,
+        0
+      ],
+      [
+        -0.17593621562505513,
+        0,
+        0.072246145297958017
+      ]
+    ]
+  },
+  {
+    "name": "PFL4",
+    "pts": [
+      [
+        0.0035,
+        -0.007151,
+        0.034517
+      ],
+      [
+        -0.021261,
+        -0.041671,
+        0.038733
+      ]
+    ],
+    "segment": [
+      "femur_distal_r",
+      "tibia_proximal_r"
+    ],
+    "ReferenceStrain": -0.14,
+    "node": [
+      7098,
+      5630
+    ],
+    "shift": [
+      [
+        0,
+        0,
+        0
+      ],
+      [
+        -0.15383394189553895,
+        0,
+        0.072843450479233213
+      ]
+    ]
+  },
+  {
+    "name": "PFL5",
+    "pts": [
+      [
+        0.0017,
+        -0.0048477,
+        0.03444
+      ],
+      [
+        -0.022384,
+        -0.039633,
+        0.036734
+      ]
+    ],
+    "segment": [
+      "femur_distal_r",
+      "tibia_proximal_r"
+    ],
+    "ReferenceStrain": -0.1,
+    "node": [
+      7145,
+      5646
+    ],
+    "shift": [
+      [
+        0,
+        0,
+        0
+      ],
+      [
+        -0.13427175389391616,
+        0,
+        0.041519655507709481
+      ]
+    ]
+  },
+  {
+    "name": "pCAP1",
+    "pts": [
+      [
+        -0.00965,
+        0.016897,
+        -0.024009
+      ],
+      [
+        -0.019173,
+        -0.033168,
+        -0.017395
+      ]
+    ],
+    "segment": [
+      "femur_distal_r",
+      "tibia_proximal_r"
+    ],
+    "ReferenceStrain": 0.04,
+    "node": [
+      959,
+      643
+    ],
+    "shift": [
+    ]
+  },
+  {
+    "name": "pCAP2",
+    "pts": [
+      [
+        -0.009839,
+        0.016583,
+        0.024113
+      ],
+      [
+        -0.017485,
+        -0.03569,
+        0.021412
+      ]
+    ],
+    "segment": [
+      "femur_distal_r",
+      "tibia_proximal_r"
+    ],
+    "ReferenceStrain": 0.04,
+    "node": [
+      5688,
+      5012
+    ],
+    "shift": [
+    ]
+  },
+  {
+    "name": "pCAP3",
+    "pts": [
+      [
+        -0.00965,
+        0.016897,
+        -0.023009
+      ],
+      [
+        -0.017476,
+        -0.035694,
+        0.020413
+      ]
+    ],
+    "segment": [
+      "femur_distal_r",
+      "tibia_proximal_r"
+    ],
+    "ReferenceStrain": 0.04,
+    "node": [
+      1078,
+      4917
+    ],
+    "shift": [
+    ]
+  },
+  {
+    "name": "pCAP4",
+    "pts": [
+      [
+        -0.009839,
+        0.016583,
+        0.023113
+      ],
+      [
+        -0.01918,
+        -0.033164,
+        -0.016395
+      ]
+    ],
+    "segment": [
+      "femur_distal_r",
+      "tibia_proximal_r"
+    ],
+    "ReferenceStrain": 0.03,
+    "node": [
+      5423,
+      643
+    ],
+    "shift": [
+    ]
+  },
+  {
+    "name": "pCAP5",
+    "pts": [
+      [
+        -0.00965,
+        0.016897,
+        -0.020009
+      ],
+      [
+        -0.019206,
+        -0.033152,
+        -0.013396
+      ]
+    ],
+    "segment": [
+      "femur_distal_r",
+      "tibia_proximal_r"
+    ],
+    "ReferenceStrain": 0.04,
+    "node": [
+      1330,
+      955
+    ],
+    "shift": [
+    ]
+  },
+  {
+    "name": "pCAP6",
+    "pts": [
+      [
+        -0.009839,
+        0.016583,
+        0.020113
+      ],
+      [
+        -0.017453,
+        -0.035705,
+        0.017413
+      ]
+    ],
+    "segment": [
+      "femur_distal_r",
+      "tibia_proximal_r"
+    ],
+    "ReferenceStrain": 0.04,
+    "node": [
+      5127,
+      4532
+    ],
+    "shift": [
+    ]
+  },
+  {
+    "name": "pCAP7",
+    "pts": [
+      [
+        -0.00965,
+        0.016897,
+        -0.016009
+      ],
+      [
+        -0.019237,
+        -0.033136,
+        -0.0093957
+      ]
+    ],
+    "segment": [
+      "femur_distal_r",
+      "tibia_proximal_r"
+    ],
+    "ReferenceStrain": 0.04,
+    "node": [
+      1564,
+      1517
+    ],
+    "shift": [
+    ]
+  },
+  {
+    "name": "pCAP8",
+    "pts": [
+      [
+        -0.009839,
+        0.016583,
+        0.016113
+      ],
+      [
+        -0.01742,
+        -0.035721,
+        0.013413
+      ]
+    ],
+    "segment": [
+      "femur_distal_r",
+      "tibia_proximal_r"
+    ],
+    "ReferenceStrain": 0.04,
+    "node": [
+      4767,
+      4072
+    ],
+    "shift": [
+    ]
+  },
+  {
+    "name": "ITB1",
+    "pts": [
+      [
+        -0.07,
+        0.05,
+        0.1
+      ],
+      [
+        -0.01,
+        -0.0047,
+        0.06
+      ],
+      [
+        0.0108,
+        -0.031,
+        0.0346
+      ]
+    ],
+    "segment": [
+      "pelvis",
+      "femur_r",
+      "tibia_r"
+    ],
+    "ReferenceStrain": 0.02,
+    "node": [
+      null,
+      null,
+      5489
+    ],
+    "shift": [
+    ]
+  },
+  {
+    "name": "men_TRANSVLIG",
+    "pts": [
+      [ 0.017787268416698001, -0.019500363992738998, 0.020984645257322 ],
+      [
+        0.023091527986648,
+        -0.018499899953270001,
+        -0.0093178032931370003
+      ]
+
+    ],
+    "segment": [ "meniscus_lateral_r", "meniscus_medial_r" ],
+    "ReferenceStrain": 0,
+    "node": [ 773, 2 ],
+    "shift": []
+  },
+  {
+    "name": "men_med_AHORN1",
+    "pts": [
+      [ 0.02256, -0.02213, -0.0031800000000000001 ],
+      [
+        0.02155,
+        -0.0184999,
+        -0.0092201999999999996
+      ]
+
+    ],
+    "segment": [ "tibia_proximal_r", "meniscus_medial_r" ],
+    "ReferenceStrain": 0,
+    "node": [ 2501, 4 ],
+    "shift": []
+  },
+  {
+    "name": "men_med_AHORN2",
+    "pts": [
+      [ 0.020490000000000001, -0.020709999999999999, -0.0032799999999999999 ],
+      [
+        0.01975,
+        -0.0184999,
+        -0.0086902000000000004
+      ]
+
+    ],
+    "segment": [ "tibia_proximal_r", "meniscus_medial_r" ],
+    "ReferenceStrain": 0,
+    "node": [ 2458, 14 ],
+    "shift": []
+  },
+  {
+    "name": "men_med_PHORN1",
+    "pts": [
+      [ -0.0057417291207642338, -0.019, -0.001 ],
+      [
+        -0.0082670059328649997,
+        -0.020000452011489998,
+        -0.0053869005734429997
+      ]
+
+    ],
+    "segment": [ "tibia_proximal_r", "meniscus_medial_r" ],
+    "ReferenceStrain": 0,
+    "node": [ 2947, 1571 ],
+    "shift": []
+  },
+  {
+    "name": "men_med_PHORN2",
+    "pts": [
+      [ -0.0070000000000000001, -0.018843727987837667, 0 ],
+      [
+        -0.0091358057255500006,
+        -0.019507840446102001,
+        -0.0036029759136819999
+      ]
+
+    ],
+    "segment": [ "tibia_proximal_r", "meniscus_medial_r" ],
+    "ReferenceStrain": 0,
+    "node": [ 3100, 1593 ],
+    "shift": []
+  },
+  {
+    "name": "men_lat_AHORN1",
+    "pts": [
+      [ 0.013451548287309449, -0.021000000000000001, 0.010123337683556244 ],
+      [
+        0.015500430616455001,
+        -0.019400363998698999,
+        0.015943442657754998
+      ]
+    ],
+    "segment": [ "tibia_proximal_r", "meniscus_lateral_r" ],
+    "ReferenceStrain": 0,
+    "node": [ 3773, 918 ],
+    "shift": []
+  },
+  {
+    "name": "men_lat_AHORN2",
+    "pts": [
+      [ 0.011822024878869982, -0.021000000000000001, 0.010605942444900051 ],
+      [
+        0.014000429999999999,
+        -0.019600363999999999,
+        0.017000131000000002
+      ]
+    ],
+    "segment": [ "tibia_proximal_r", "meniscus_lateral_r" ],
+    "ReferenceStrain": 0,
+    "node": [ 3823, 884 ],
+    "shift": []
+  },
+  {
+    "name": "men_lat_PHORN1",
+    "pts": [
+      [ -0.0016228479214471533, -0.017999999999999999, 0.0046679509884847903 ],
+      [
+        -0.0045628743722350004,
+        -0.015500299828339,
+        0.0077085989426409996
+      ]
+    ],
+    "segment": [ "tibia_proximal_r", "meniscus_lateral_r" ],
+    "ReferenceStrain": 0,
+    "node": [ 3325, 1552 ],
+    "shift": []
+  },
+  {
+    "name": "men_lat_PHORN2",
+    "pts": [
+      [
+        -0.0026597785220229967,
+        -0.018606879186256607,
+        0.0034599342705518695
+      ],
+      [
+        -0.0056781072938229997,
+        -0.01595809258424,
+        0.0076944005382800001
+      ]
+    ],
+    "segment": [ "tibia_proximal_r", "meniscus_lateral_r" ],
+    "ReferenceStrain": 0,
+    "node": [
+      3325,
+      1554
+    ],
+    "shift": []
+  },
+  {
+    "name": "men_lat_COR1",
+    "pts": [
+      [
+        -0.011181,
+        -0.022686000000000001,
+        0.015807000000000002
+      ],
+      [
+        -0.01118067,
+        -0.019820299999999999,
+        0.015807100000000001
+      ]
+    ],
+    "segment": [ "tibia_proximal_r", "meniscus_lateral_r" ],
+    "ReferenceStrain": 0,
+    "node": [
+      4410,
+      1397
+    ],
+    "shift": []
+  },
+  {
+    "name": "men_lat_COR2",
+    "pts": [
+      [
+        -0.0016180000000000001,
+        -0.024497000000000001,
+        0.037505999999999998
+      ],
+      [
+        -0.00161808,
+        -0.021255679999999999,
+        0.0375068
+      ]
+    ],
+    "segment": [ "tibia_proximal_r", "meniscus_lateral_r" ],
+    "ReferenceStrain": 0,
+    "node": [
+      5685,
+      503
+    ],
+    "shift": []
+  },
+  {
+    "name": "men_lat_COR3",
+    "pts": [
+      [
+        0.018002000000000001,
+        -0.021832000000000001,
+        0.024173
+      ],
+      [
+        0.018001429999999999,
+        -0.019756363999999998,
+        0.024173130000000001
+      ]
+    ],
+    "segment": [ "tibia_proximal_r", "meniscus_lateral_r" ],
+    "ReferenceStrain": 0,
+    "node": [
+      5028,
+      695
+    ],
+    "shift": []
+  },
+  {
+    "name": "men_med_COR1",
+    "pts": [
+      [ 0.020181999999999999, -0.022068000000000001, -0.019383999999999998 ],
+      [
+        0.020181999999999999,
+        -0.019625900000000002,
+        -0.019384200000000001
+      ]
+
+    ],
+    "segment": [ "tibia_proximal_r", "meniscus_medial_r" ],
+    "ReferenceStrain": 0,
+    "node": [ 928, 183 ],
+    "shift": []
+  },
+  {
+    "name": "men_med_COR2",
+    "pts": [
+      [ -0.0010430000000000001, -0.025578, -0.029635999999999999 ],
+      [
+        -0.0010434000000000001,
+        -0.02291166,
+        -0.0296358
+
+      ]
+
+    ],
+    "segment": [ "tibia_proximal_r", "meniscus_medial_r" ],
+    "ReferenceStrain": 0,
+    "node": [ 429, 759 ],
+    "shift": []
+  },
+  {
+    "name": "men_med_COR3",
+    "pts": [
+      [ -0.016945999999999999, -0.025425, -0.012178 ],
+      [
+        -0.016946099999999999,
+        -0.022899449999999998,
+        -0.012177749999999999
+      ]
+
+    ],
+    "segment": [ "tibia_proximal_r", "meniscus_medial_r" ],
+    "ReferenceStrain": 0,
+    "node": [ 1816, 1499 ],
+    "shift": []
+  }
+]

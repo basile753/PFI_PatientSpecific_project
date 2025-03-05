@@ -14,8 +14,10 @@ Read the following thesis for more information : INSERT ANNAGH'S THESIS
 
 IMPORTANT to use the project, create a CONDA VirtualEnvironment named ".venv_conda" in the root directory, based on Python3.7 with the pip requirement from the requirement.txt file. To summarize, run the Following commands in the root project directory: 
 	> conda create --prefix .venv_conda python=3.7
-	> conda activate .venv_conda
-	> conda install --file requirements.txt
+	> conda activate .venv_conda)
+	> conda install --file requirements.txt 
+	(may need to manually install opensim using > conda install opensim-org::opensim)
+
 
 ==> Compatible with CUDA10.1 Cudnn7, have all the necessary libraries and GPUs (nvidia) toolkits installed.
 
@@ -42,21 +44,3 @@ Also to eventually import/export Data inside the running Docker or export result
 
 Please feel free to contact me if you have any question on my email adress: antoine.basile753@outlook.fr
 Cheers.
-
-Femur
-Tibia
-Patella
-
-Femur_cartilage
-Tibia_lateral_cartilage
-Tibia_medial_cartilage
-Patella_cartilage
-
-Menisc_lateral_sup
-Menisc_lateral_inf
-Menisc_medial_sup
-Menisc_medial_inf
-
-So I'm facing an issue:
-
-The MPUNET Library is not CONDA-compatible and requires Python 3.7. On the other hand the opensim Library was only released on Conda
