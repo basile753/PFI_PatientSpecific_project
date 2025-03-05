@@ -18,11 +18,13 @@ IMPORTANT to use the project, create a CONDA VirtualEnvironment named ".venv_con
 	> conda install --file requirements.txt 
 	(may need to manually install opensim using > conda install opensim-org::opensim)
 
+ADDITIONALLY the trained MPUnet model's files and the jam plugin (necessary for the insertion process) can't be pushed on github, please contact me so I could forward you these files: antoine.basile753@outlook.fr
 
 ==> Compatible with CUDA10.1 Cudnn7, have all the necessary libraries and GPUs (nvidia) toolkits installed.
 
-Then SIMPLY RUN THE main.py SCRIPT
+Then SIMPLY RUN THE main.py SCRIPT 
 
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~DOCKER SETTING~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 You might need to use a Docker to set up your own version of CUDA10.1 Cudnn7 if your system doesn't allow another/several CUDA versions for the training/predicting phases (options 2 and 3), to do so process the Dockerfile present in the project root folder with the following commands:
 	> docker build -t project_name
 	> docker run --gpus all -it project_name 
@@ -30,6 +32,7 @@ Then run the main.py script within the running docker.
 Also to eventually import/export Data inside the running Docker or export results outside, use the follwing command:
 	> docker cp source_folder destination_folder 
 	(ex:> docker cp PFI_Autosegmentation_project/Data/ 7b1d664921c7:container to import Data)
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 
 ------------------------------------------------- WHAT IT CAN DO
 
