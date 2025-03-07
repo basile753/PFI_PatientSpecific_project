@@ -24,7 +24,7 @@ IMPORTANT to use the project, you'll need to create a conda environment, to do s
 
 ADDITIONALLY for the auto-segmentation task, if you wish to use one of the model we trained on our PFI/ACL dataset of 41 youth patients, please contact me so I could forward you these files: antoine.basile753@outlook.fr
 
-FOR THE TRAINING/TESTING/AUTOSEGMENTATION (options 1 & 2 of the program) ==> Depends on CUDA10.1 Cudnn7, have these libraries and GPUs (nvidia) toolkits installed, and set up a docker if these are incompatible with your system (see below for docker instructions).
+FOR THE TRAINING/TESTING/AUTOSEGMENTATION (options 2 & 3 of the program) ==> Depends on CUDA10.1 Cudnn7, have these libraries and GPUs (nvidia) toolkits installed, and set up a docker if these are incompatible with your system (see below for docker instructions).
 
 Then SIMPLY RUN THE main.py SCRIPT 
 
