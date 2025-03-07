@@ -13,10 +13,10 @@ Read the following thesis for more information : INSERT ANNAGH'S THESIS
 ------------------------------------------------- HOW TO USE
 
 IMPORTANT to use the project, create a CONDA VirtualEnvironment named ".venv_conda" in the root directory, based on Python3.7 with the pip requirement from the requirement.txt file. To summarize, run the Following commands in the root project directory: 
-	> conda create --prefix .venv_conda python=3.7
-	> conda activate .venv_conda)
-	> conda install --file requirements.txt 
-	(may need to manually install opensim using > conda install opensim-org::opensim)
+	> conda env create -n .venv_conda -f environment.yml
+	> conda activate .venv_conda
+	> cd Scripts
+	> python main.py
 
 ADDITIONALLY the trained MPUnet model's files and the jam plugin (necessary for the insertion process) can't be pushed on github, please contact me so I could forward you these files: antoine.basile753@outlook.fr
 
