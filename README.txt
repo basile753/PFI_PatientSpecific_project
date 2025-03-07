@@ -13,8 +13,10 @@ Read the following thesis for more information : INSERT ANNAGH'S THESIS
 ------------------------------------------------- HOW TO USE
 
 IMPORTANT to use the project, create a CONDA VirtualEnvironment named ".venv_conda" in the root directory, based on Python3.7 with the pip requirement from the requirement.txt file. To summarize, run the Following commands in the root project directory: 
-	> conda env create -n .venv_conda -f environment.yml
-	> conda activate .venv_conda
+	> conda env create --prefix .venv_conda -f environment.yml
+	> conda activate .\.venv_conda
+	> pip install gias2 # Dependency trick, ignore error message.
+	> conda install numpy==1.20.1  # Dependency trick, ignore error message.
 	> cd Scripts
 	> python main.py
 
