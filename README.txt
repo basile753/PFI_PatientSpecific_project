@@ -18,15 +18,23 @@ IMPORTANT to use the project, you'll need to create a conda environment, to do s
 	> conda activate .\.venv_conda
 	> pip install gias2 # Dependency trick, ignore error message.
 	> conda install numpy==1.20.1  # Dependency trick, ignore error message.
-	Then unzip the "jam-plugin" folder at "PFI_PatientSpecific_project\Scripts\Morphing_scripts\insertion"
 	> cd Scripts
-	> python main.py
+
+THEN there are 2 manual tasks to do:
+	
+	1- unzip the "jam-plugin" folder at "PFI_PatientSpecific_project\Scripts\Morphing_scripts\insertion"
+	2- Replace the line 4 of the __init__.py script of the opensim library (at this path: PFI_PatientSpecific_project\.venv_conda\lib\opensim\__init__.py) by these ones:
+			> dll_directory = os.path.dirname(os.path.realpath(__file__))
+			> os.environ['PATH'] = dll_directory + os.pathsep + os.environ['PATH']
+
 
 ADDITIONALLY for the auto-segmentation task, if you wish to use one of the model we trained on our PFI/ACL dataset of 41 youth patients, please contact me so I could forward you these files: antoine.basile753@outlook.fr
 
 FOR THE TRAINING/TESTING/AUTOSEGMENTATION (options 2 & 3 of the program) ==> Depends on CUDA10.1 Cudnn7, have these libraries and GPUs (nvidia) toolkits installed, and set up a docker if these are incompatible with your system (see below for docker instructions).
 
-Then SIMPLY RUN THE main.py SCRIPT 
+Then SIMPLY RUN THE main.py SCRIPT:
+	
+	> python main.py
 
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~DOCKER SETTING~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 You might need to use a Docker to set up your own version of CUDA10.1 Cudnn7 if your system doesn't allow another/several CUDA versions for the training/predicting phases (options 2 and 3), to do so process the Dockerfile present in the project root folder with the following commands:

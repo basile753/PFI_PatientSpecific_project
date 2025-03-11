@@ -13,6 +13,8 @@ def entry():
     if model_dir == "":
         model_dir = os.path.join(os.getcwd(), "../Data/RMIs/to_predict/results")
     slicer_path = input("Enter the path to your 3Dslicer executable (default: D:\Programmes\Slicer 5.6.2\Slicer.exe): ")
+    if slicer_path == "":
+        slicer_path = "D:\Programmes\Slicer 5.6.2\Slicer.exe"
     root = os.getcwd()
     print("The following segmentations will be morphed: ")
     for file in os.listdir(model_dir):

@@ -16,7 +16,7 @@ def create_No_empty_folders(path, start_No, end_No):
         if not os.path.exists(path + str(i)):
             os.makedirs(path + str(i))
 
-def execute_3dslicer(script: str, slicer_path="D:\Programmes\Slicer 5.6.2\Slicer.exe"):
+def execute_3dslicer(script: str, slicer_path: str):
     """
     With this function you can run 3Dslicer executing the script of your choice.
     :param script: Enter the script you want to execute.
@@ -183,10 +183,7 @@ def export_stl_from_niftii(file_path: str, slicer_path):
     with open("temp_export_stl_to_niftii.py", "w") as f:
         f.write(script)
         f.close()
-    if slicer_path != "":
-        execute_3dslicer("temp_export_stl_to_niftii.py", slicer_path=slicer_path)
-    else:
-        execute_3dslicer("temp_export_stl_to_niftii.py")
+    execute_3dslicer("temp_export_stl_to_niftii.py", slicer_path=slicer_path)
     os.remove("temp_export_stl_to_niftii.py")
     for file in os.listdir(output_folder):
         i = int(file.split("_")[-1].split(".")[0])
@@ -283,5 +280,38 @@ def volume_to_surface_meshes(path: str, plot: bool = True, direction = "Z"):
             surface.flip_normals()
     # Save the split meshes
     surface.save(path)
-
     print("\tTransformation finished.\n")
+
+def check_side(mesh_dir: str):
+    """
+    Thus function check if the knee is a left or right knee, from the relative tibia/fibula position along X.
+    :param mesh_dir: The path to the meshes directory.
+    :return: strings "R" or "L" and also prints the side.
+    """
+    print(f"\t~~~~~ Checking if {mesh_dir} is a left or right knee. ~~~~~")
+    flag = 0
+    for mesh in os.listdir(mesh_dir):
+        if mesh.endswith(".ply") or mesh.endswith(".stl"):
+            if ("Fibula" in mesh):
+                print("Fibula found")
+                fibula_mesh = pv.read(os.path.join(mesh_dir, mesh))
+                flag += 1
+            elif ("Tibia" in mesh) and ("cartilage" not in mesh):
+                print("Tibia found")
+                tibia_mesh = pv.read(os.path.join(mesh_dir, mesh))
+                flag += 1
+    if flag != 2:
+        raise FileNotFoundError(f"\nOne of these files are missing: 'tibia' and 'fibula' meshes within: {mesh_dir}\n. "
+                            f"verify they are well named without error.")
+    flag = 0
+    if fibula_mesh.center[0] < tibia_mesh.center[0]:
+        side = "L"
+        flag += 1
+    elif fibula_mesh.center[0] > tibia_mesh.center[0]:
+        side = "R"
+        flag += 1
+    if flag != 1:
+        raise ValueError(f"The tibia or fibula mesh file seems corrupted or not properly loaded. Please check them.")
+        return
+    print(f"\tKnee side: {side}")
+    return side

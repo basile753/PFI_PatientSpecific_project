@@ -11,6 +11,7 @@ sys.path.append(r'Morphing_scripts\insertion')
 sys.path.append(r'Morphing_scripts\insertion\osimProcessing')
 sys.path.append(r'Morphing_scripts\insertion\smith2019_scaling_scripts')
 import utils_bis as utb
+import utils as ut
 from meshEditting import loadGeom, coordFrameFunc as frames, misc as miscTools, morphingTools
 import scaleCOMAKmodel_popups as scm
 from osimProcessing import osimTools
@@ -19,7 +20,7 @@ from osimProcessing import comakTools
 
 def scale_smith2019_from_patient_static_trial(patient_dir, model_name, side = 'R', modeltype = ''):
     """
-    NOT READY. Thus function scale the PFI_smith2019.osim model according to the patient's static trial (must be a .trc file).
+    Thus function scale the PFI_smith2019.osim model according to the patient's static trial (must be a .trc file).
     """
     # The processed can be improved to automatically find the .trc file, or make sure that the .trc file is kept in the whole process.
     pluginDir = r"Morphing_scripts\insertion\jam-plugin\build\Release\osimJAMPlugin"
@@ -30,14 +31,15 @@ def scale_smith2019_from_patient_static_trial(patient_dir, model_name, side = 'R
     if not os.path.exists(os.path.join(patient_dir, "static.trc")):
         raise FileNotFoundError(f"The file 'static.trc' does not exist at {patient_dir}")
     trc_dir = os.path.join(patient_dir, "static.trc")
-    if side == 'R':
-        xml_dir = os.path.join("Morphing_scripts", "insertion", "Geometry", "scale_smith_right.xml")
-    else:
+    if side == 'L':
         xml_dir = os.path.join("Morphing_scripts", "insertion", "Geometry", "scale_smith_left.xml")
-    gen_model_dir = os.path.join("Morphing_scripts", "insertion", "Geometry", "PFI_smith2019.osim")
+        gen_model_dir = os.path.join("Morphing_scripts", "insertion", "Geometry", "PFI_smith2019_L.osim")
+    else:
+        xml_dir = os.path.join("Morphing_scripts", "insertion", "Geometry", "scale_smith_right.xml")
+        gen_model_dir = os.path.join("Morphing_scripts", "insertion", "Geometry", "PFI_smith2019_R.osim")
     scaleModelDir = scm.scaleOsimModel(patient_dir, model_name, trc_dir, mass, side, modeltype, xml_dir, gen_model_dir)
     scm.comakTools.scaleCOMAKcontactGeoms(scaleModelDir)
-    print("\n\tsmith2019 successfully scaled.")
+    print("\n\tsmith2019 successfully scaled using the patient's static MoCap.")
     return
 
 def menisc_split(dir: str, plot: bool = True):
@@ -46,7 +48,7 @@ def menisc_split(dir: str, plot: bool = True):
     :param dir: The directory to the Meniscus (MUST BE NAMED "C_Menisc_medial.ply", "C_Menisc_lateral.ply")
     :param plot: Set to True to plot the result of the split.
     """
-    print(f"\tSplitting meniscus using ray tracing...")
+    print(f"\n\tSplitting meniscus using ray tracing... You will have to check the normals direction that must be toward the outside of the mesh..")
     meniscus_list = ["C_Menisc_medial.ply", "C_Menisc_lateral.ply"]
 
     for menisc in meniscus_list:
@@ -130,12 +132,13 @@ def generate_tib_shift(path: str):
     return ft_diff[2, 3]  # Tib_Shift
 
 
-def load_and_adjust_meshes(dir, tib_shift, patient_no):
+def load_and_adjust_meshes(dir, tib_shift, patient_no, side):
     """Load and adjust the geometry meshes."""
     meshes = []
     order = ["Femur", "Tibia", "Patella",  #Bones
              "Femur_cartilage", "Tibia_cartilages_merged", "Patella_cartilage", #Cartilages
-             "Menisc_lateral", "Menisc_medial", "Menisc_lateral_inf", "Menisc_medial_inf", "Menisc_lateral_sup", "Menisc_medial_sup"] #Meniscus
+             "Menisc_lateral", "Menisc_medial", "Menisc_lateral_inf", "Menisc_medial_inf", "Menisc_lateral_sup", "Menisc_medial_sup", #Meniscus
+             "Fibula"] # Fibula in last position because I'm too lazy to re-write the code with the right meshes order.
     for i in range(len(order)):
         flag = False
         for file in os.listdir(dir):
@@ -143,7 +146,7 @@ def load_and_adjust_meshes(dir, tib_shift, patient_no):
                 if file.split(".ply")[0].split("C_")[1] == order[i]:
                     flag = True
                     m = pv.PolyData(os.path.join(dir, file))
-                    if ("Tibia" in file) or ("Menisc" in file):
+                    if ("Tibia" in file) or ("Menisc" in file) or ("Fibula" in file):
                         m.points[:, 2] -= tib_shift
                     m.scale([1 / 1000, 1 / 1000, 1 / 1000], inplace=True) #Scale the meshes to correspond to meter unit
                     meshes.append(m)
@@ -153,17 +156,12 @@ def load_and_adjust_meshes(dir, tib_shift, patient_no):
     geom_files = {
         'bone': meshes[:3],
         'cartilage': meshes[3:6],
-        'meniscus': meshes[6:]}
+        'meniscus': meshes[6:],
+        'fibula': meshes[-1]}
     # Check the side orientation (right or left knee)
-    if geom_files['bone'][1].center[0] < geom_files['meniscus'][0].center[0]:
-        side = "R"
-        print(f"The knee is a RIGHT knee.")
-    else:
-        side = "L"
-        print(f"The knee is a LEFT knee.")
-    geom_files_remeshed = smith2019_remesh(geom_files)
+    geom_files_remeshed = smith2019_remesh(geom_files, side=side)
     mri_to_osim_transpose(dir, geom_files_remeshed, patient_no) # The transformed files are saved though this function
-    return side
+    return
 
 def mri_to_osim_transpose(dir, geom_files, patient_no):
     """
@@ -188,15 +186,15 @@ def mri_to_osim_transpose(dir, geom_files, patient_no):
             for i in range(3):
                 geom_files[surf][i].points = np.transpose(np.matmul(r_transposition,geom_files[surf][i].points.transpose()))
                 geom_files[surf][i].save(os.path.join(dir,'Geometry',patient_no+'-'+body_list[i]+'-'+surf+'.stl'))
+    # Addition of the Fibula transposition
+    geom_files['fibula'].points = np.transpose(np.matmul(r_transposition, geom_files['fibula'].points.transpose()))
+    geom_files['fibula'].save(os.path.join(dir, 'Geometry', patient_no + '-' + 'fibula' + '-' + 'bone' + '.stl'))
     return geom_files
 
 def smith2019_remesh(geom_files, smith_dir = "./Morphing_scripts/insertion/Geometry", side="R"):
     """
     This function remesh the segmented cartilages and meniscus to have the same amount of point than in the smith2019 model.
     """
-    #smith_file_names = [f"smith2019-{side}-femur-bone", f"smith2019-{side}-tibia-bone", f"smith2019-{side}-patella-bone", # Bones
-    #                    f"smith2019-{side}-femur-cartilage", f"smith2019-{side}-tibia-cartilage", f"smith2019-{side}-patella-cartilage", #Cartilages
-    #                    f"smith2019-{side}-lateral-meniscus", f"smith2019-{side}-medial-meniscus", f"smith2019-{side}-lateral-meniscus-inferior", f"smith2019-{side}-medial-meniscus-inferior", f"smith2019-{side}-lateral-meniscus-superior", f"smith2019-{side}-medial-meniscus-superior"] #Meniscus
     smith_file_names_to_remesh = [f"smith2019-{side}-femur-cartilage", f"smith2019-{side}-tibia-cartilage", f"smith2019-{side}-patella-cartilage", #Cartilages
                                   f"smith2019-{side}-lateral-meniscus-inferior", f"smith2019-{side}-medial-meniscus-inferior", f"smith2019-{side}-lateral-meniscus-superior", f"smith2019-{side}-medial-meniscus-superior"]  # Meniscus
     for i in range(3): # Remesh all the cartilages
@@ -205,22 +203,20 @@ def smith2019_remesh(geom_files, smith_dir = "./Morphing_scripts/insertion/Geome
         geom_files['meniscus'][i+2] = utb.ggremesh(geom_files['meniscus'][i+2], opts={'nb_pts': pv.PolyData(os.path.join(smith_dir, smith_file_names_to_remesh[i+3]) + ".stl").n_points,})
     return geom_files
 
-def modify_scaled_smith2019_osim_file(dir_osim, model_name):
+def modify_scaled_smith2019_osim_file(dir_osim, model_name, side):
     """Update mesh file names in an OpenSim 4.3 .osim model file."""
     parser = ET.XMLParser(target=ET.TreeBuilder())
     tree = ET.parse(dir_osim, parser)
     root = tree.getroot()[0]  # First child of the root contains model data
-
     root.attrib['name'] = model_name  # Update model name
-
+    side = side.lower()
     body_mesh_updates = {
-        "femur_distal_r": {"femur_bone": "femur-bone", "femur_cartilage": "femur-cartilage"},
-        "tibia_proximal_r": {"tibia_bone": "tibia-bone", "tibia_cartilage": "tibia-cartilage"},
-        "patella_r": {"patella_bone": "patella-bone", "patella_cartilage": "patella-cartilage"},
-        "meniscus_lateral_r": {"meniscus_lateral_r": "lateral-meniscus"},
-        "meniscus_medial_r": {"meniscus_medial_r": "medial-meniscus"},
+        f"femur_distal_{side}": {"femur_bone": "femur-bone", "femur_cartilage": "femur-cartilage"},
+        f"tibia_proximal_{side}": {"tibia_bone": "tibia-bone", "tibia_cartilage": "tibia-cartilage", "fibula_bone": "fibula-bone"},
+        f"patella_{side}": {"patella_bone": "patella-bone", "patella_cartilage": "patella-cartilage"},
+        f"meniscus_lateral_{side}": {f"meniscus_lateral_{side}": "lateral-meniscus"},
+        f"meniscus_medial_{side}": {f"meniscus_medial_{side}": "medial-meniscus"},
     }
-
     # Update BodySet geometry
     body_set = root.find("BodySet")[0]
     for body_name, meshes in body_mesh_updates.items():
@@ -410,20 +406,21 @@ def entry():
 
     # -----Pass through every morphed segmentations in the segmentations' directory---------------------
     for folder in os.listdir(dir_knee_model):
-        if ("morphed" in folder) and ("2" in folder):
+        if ("morphed" in folder):
             print(f"\nProcessing the insertion of {folder} within the smith2019 model...")
 
             # -----Specific parameters---------------------
             output_dir = os.path.join(dir_knee_model, folder)
             patient_no = folder.split('_')[0]
             dir = os.path.join(dir_knee_model, folder)
+            side = ut.check_side(output_dir)
             if not os.path.exists(os.path.join(dir, 'Geometry')):  # Necessary folder within the patient's directory for temporary files.
                 os.mkdir(os.path.join(dir, 'Geometry'))
             dir_smith2019 = os.path.join(dir_insertion_files, "Geometry")
 
             # -----Scale the smith2019 model using patient's static mocap trial---------------------
             copy_smith2019_files(dir_smith2019, os.path.join(dir, "Geometry"))
-            scale_smith2019_from_patient_static_trial(dir, "smith2019_" + patient_no)
+            scale_smith2019_from_patient_static_trial(dir, "smith2019_" + patient_no, side=side)
 
             # -----Meniscus transversally split and tibia cartilages merged---------------------
             menisc_split(dir, plot=True)
@@ -431,12 +428,12 @@ def entry():
 
             # -----Load the meshes, apply several transformations (Scaling, reposition, remesh, axis transposition)-----
             tib_shift = generate_tib_shift(dir)
-            side = load_and_adjust_meshes(dir, tib_shift, patient_no)
+            load_and_adjust_meshes(dir, tib_shift, patient_no, side)
             dir_osim = os.path.join(dir, "smith2019_" + patient_no + "_scaled_" + side + ".osim")
             scaledModel = "smith2019_" + patient_no + "_scaled_" + side + "_modified.osim"
 
             # -----Change the scaled smith2019 to fit the patient's knee part's names, then loads it--------------
-            modify_scaled_smith2019_osim_file(dir_osim, patient_no)
+            modify_scaled_smith2019_osim_file(dir_osim, patient_no, side=side)
             loadedModel = comakTools.loadCOMAKModel(os.path.join(dir, scaledModel))
 
             # -----Update the smith2019 scaled model with the patient's knee geometry, save it and vizualise it.---------------------

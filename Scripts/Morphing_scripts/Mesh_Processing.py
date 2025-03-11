@@ -152,7 +152,7 @@ def perform_cpd(meshes_aligned, ref_files, dir_ref, dir_corresp, bodynames, dir_
     """Performs Coherent Point Drift (CPD) on aligned meshes."""
     gbcpd_results = []
     refs = [pv.PolyData(os.path.join(dir_ref, file)) for file in ref_files]
-    # Check of the knee is a left knee (from the relative position Fibula/Tibia)
+    # Check if the knee is a left knee (from the relative position Fibula/Tibia)
     if meshes_aligned[-1].center[0]<meshes_aligned[1].center[0]:
         refs = reflect_meshes(refs) # Reflect the reference model to correspond to a left knee.
     for i, mesh in enumerate(meshes_aligned):

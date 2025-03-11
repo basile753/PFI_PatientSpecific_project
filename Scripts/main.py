@@ -19,12 +19,13 @@ def main(root: str):
           " train your own models using this program and change the reference files for the morphing\n")
     while flag == True:
         choice = input("\nChoose an action you would like to perform:"
-                       "\n\t1: Pre-process a dataset of manually segmented MRI (in order to train a model)."
-                       "\n\t2: Train and evaluate a model on your data."
-                       "\n\t3: Perform auto-segmentations on MRI-DICOM based on a choosen model."
+                       "\n\t1: Pre-process a dataset of manually segmented MRI."
+                       "\n\t2: Train and evaluate a model on your data (REQUIRES '1')."
+                       "\n\t3: Perform auto-segmentations on MRI-DICOM based on a choosen model (REQUIRES a model, either using '2' or downloading a trained one)."
                        "\n\t4: Apply a morphing process to segmentations."
-                       "\n\t5: Insert a segmented model within a generic .osim musculoskeletic model (IN PROGRESS)."
+                       "\n\t5: Insert a segmented model within a generic .osim musculoskeletic model (REQUIRES '4') (IN PROGRESS)."
                        "\n\t6: Perform simulations and generate outputs (NOT IMPLEMENTED)."
+                       "\n\nNote that some options might require previous options to be processed before (see description)"
                        "\n\n ---> ")
 
 
