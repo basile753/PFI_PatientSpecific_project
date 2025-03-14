@@ -66,9 +66,9 @@ def entry():
         images_path = "/container/Data/RMIs/to_predict"
     if not os.path.exists(images_path):
         raise FileExistsError("The path you entered does not exist")
-    model = input("Enter the name of the model you would like to use (default: MPunet_41DATA_split1): ")
+    model = input("Enter the name of the model you would like to use (default: MPunet_41DATA_split2): ")
     if model == "":
-        model = "MPunet_41DATA_split1"
+        model = "MPunet_41DATA_split2"
     model_path = f'../Models/{model}'
     if not os.path.exists(model_path):
         raise FileExistsError("The model path you entered does not exist: "+model_path)

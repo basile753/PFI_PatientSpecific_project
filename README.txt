@@ -1,12 +1,12 @@
-Last update : A. Basile, uOttawa VRS, 30_01_2025
+Last update : A. Basile, uOttawa VRS, 14_02_2025
 
 ----------------------------------------------------- CONTEXT
 
 This Git repository aims to be the workingplace of the PFI (patellofemoral instability) automatic segmentation and simulation project, part of Annagh's Thesis proposal, directed by Allison clouthier for the uOttawa.
 
-The goal is to develop a ready-to-use software that can predict the risks of PFI for a specific young person from its MRI data.
+This is a ready-to-use program that can generate a patient-specific MSK model from the patient's MRI CT-scan images.
 
-To do so, the software will perform an automatic-segmentation made by a Machine Learning model, trained on a specific dataset of 41 teenager's knee MRIs with background of knee injuries (PFI, ACL...). Then a few kinematic simulation will be done from the previously segmented musculoskeletal model in order to assess the risk of PFI and/or PFI-specific kinematics.
+To do so, the software can train, test and evaluate a deep-learning model for full knee segmentation or use an existing one, then perform a full automatic-segmentation of the knee made by the deep learning model. Finally after going through a few transformations and morphing process, the patient-specific knee mesh is inserted within the SMITH2019 generic model, ready for further simulations.
 
 Read the following thesis for more information : INSERT ANNAGH'S THESIS
 
@@ -28,7 +28,7 @@ THEN there are 2 manual tasks to do:
 			> os.environ['PATH'] = dll_directory + os.pathsep + os.environ['PATH']
 
 
-ADDITIONALLY for the auto-segmentation task, if you wish to use one of the model we trained on our PFI/ACL dataset of 41 youth patients, please contact me so I could forward you these files: antoine.basile753@outlook.fr
+ADDITIONALLY for the auto-segmentation task, if you wish to use one of the model we trained on our PFI/ACL dataset of 41 youth patients, please contact me so I could forward you these files: antoine.basile753@outlook.fr.
 
 FOR THE TRAINING/TESTING/AUTOSEGMENTATION (options 2 & 3 of the program) ==> Depends on CUDA10.1 Cudnn7, have these libraries and GPUs (nvidia) toolkits installed, and set up a docker if these are incompatible with your system (see below for docker instructions).
 
@@ -37,7 +37,10 @@ Then SIMPLY RUN THE main.py SCRIPT:
 	> python main.py
 
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~DOCKER SETTING~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-You might need to use a Docker to set up your own version of CUDA10.1 Cudnn7 if your system doesn't allow another/several CUDA versions for the training/predicting phases (options 2 and 3), to do so process the Dockerfile present in the project root folder with the following commands:
+You might need to use a Docker to set up your own version of CUDA10.1 Cudnn7 if your system doesn't allow another/several CUDA versions for the training/predicting phases (options 2 and 3).
+
+To do so, download Docker then process the Dockerfile present in the project root directory with the following commands:
+
 	> docker build -t project_name
 	> docker run --gpus all -it project_name 
 Then run the main.py script within the running docker.
@@ -48,12 +51,14 @@ Also to eventually import/export Data inside the running Docker or export result
 
 ------------------------------------------------- WHAT IT CAN DO
 
-	1) Pre-process your dataset of manually segmented MRI (in order to train a model)
-	2) Train a model on your data
-	3) Perform auto-segmentations based on a choosen model
-	4) Apply a morphing process to segmentations AND propose to switch the model's parts from volume to shell-type mesh
-	5) Insert the segmented model within a generic .osim musculoskeletic model (NOT IMPLEMENTED)
-	6) Perform simulations and generate outputs (NOT IMPLEMENTED)
+         1: Pre-process a dataset of manually segmented MRI."
+         2: Train and evaluate a model on your data (REQUIRES '1')."
+         3: Perform auto-segmentations on MRI-DICOM based on a choosen model (REQUIRES a model, either using '2' or downloading a trained one)."
+         4: Apply a morphing process to segmentations."
+         5: Insert a segmented model within a generic .osim musculoskeletic model (REQUIRES '4') (IN PROGRESS)."
+         (6: Perform simulations and generate outputs (NOT IMPLEMENTED).")
+
+Note that some options might require previous options to be processed before (see description)"
 
 
 
