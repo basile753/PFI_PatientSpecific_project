@@ -14,7 +14,7 @@ Read the following thesis for more information : INSERT ANNAGH'S THESIS
 
 IMPORTANT to use the project, you'll need to create a conda environment, to do so run the Following commands in the root project directory: 
 
-	> conda env create --prefix .venv_conda -f environment.yml
+	> conda env create --prefix .venv_conda -f environment_windows.yml
 	> conda activate .\.venv_conda
 	> pip install gias2 # Dependency trick, ignore error message.
 	> conda install numpy==1.20.1  # Dependency trick, ignore error message.
@@ -36,15 +36,18 @@ Then SIMPLY RUN THE main.py SCRIPT:
 	
 	> python main.py
 
-~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~DOCKER SETTING~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~DOCKER SETTING / LINUX ONLY~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 You might need to use a Docker to set up your own version of CUDA10.1 Cudnn7 if your system doesn't allow another/several CUDA versions for the training/predicting phases (options 2 and 3).
 
-To do so, download Docker then process the Dockerfile present in the project root directory with the following commands:
+To do so, download and activate Docker on your machine, then process the Dockerfile present in the project root directory with the following commands:
 
-	> docker build -t project_name
+	> docker build -t project_name .
 	> docker run --gpus all -it project_name 
+
+Then enter the created docker and activate the conda venv.
 Then run the main.py script within the running docker.
 Also to eventually import/export Data inside the running Docker or export results outside, use the follwing command:
+
 	> docker cp source_folder destination_folder 
 	(ex:> docker cp PFI_Autosegmentation_project/Data/ 7b1d664921c7:container to import Data)
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~

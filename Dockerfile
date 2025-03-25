@@ -34,6 +34,14 @@ RUN alternatives --install /usr/bin/python python /usr/local/bin/python3.7 1 && 
     alternatives --set python /usr/local/bin/python3.7 && \
     python --version
 
+# Install Anaconda
+RUN wget https://repo.anaconda.com/archive/Anaconda3-2024.10-1-Linux-x86_64.sh && \
+    bash Anaconda3-2024.10-1-Linux-x86_64.sh -b -p /opt/anaconda && \
+    rm Anaconda3-2024.10-1-Linux-x86_64.sh
+
+# Set the PATH for Conda
+ENV PATH=/opt/anaconda/bin:$PATH
+
 # Ensure pip is up to date
 RUN python -m ensurepip && \
     python -m pip install --upgrade pip setuptools
@@ -42,16 +50,15 @@ RUN python -m ensurepip && \
 COPY . /container
 
 # Remove any existing virtual environment
-RUN rm -rf /container/.venv37
+RUN rm -rf /container/.venv_conda
 
 # Create a virtual environment with Python 3.7
-RUN python -m venv /container/.venv37
+RUN conda env create --prefix /container/.venv_conda -f environment_linux.yml
 
-# Install all requirements inside the virtual environment
-RUN /container/.venv37/bin/pip install -r /container/requirements.txt
+RUN conda run --prefix .venv_conda pip install gias2 && \
+    conda run --prefix .venv_conda conda install -y numpy==1.20.1 && \
+    conda init bash
 
-# Set the PATH to include the virtual environment binaries
-ENV PATH="/container/.venv37/bin:$PATH"
 
 # The default command to run when the container starts
 CMD ["bash"]
